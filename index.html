@@ -517,6 +517,160 @@
       font-style: italic;
     }
 
+    /* AI Checker Card */
+    .ai-checker-card {
+      background: linear-gradient(140deg, #EEF0FB 0%, #F5F6FD 100%);
+      border: 1px solid rgba(91,110,189,0.18);
+    }
+
+    .ai-checker-card .card-tag { color: #5B6EBD; }
+
+    .ai-badge {
+      margin-left: auto;
+      background: #5B6EBD;
+      color: white;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 2px 7px;
+      border-radius: 50px;
+      text-transform: uppercase;
+    }
+
+    .ai-intro {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 14px;
+      font-style: italic;
+    }
+
+    .ai-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .ai-topic-input {
+      flex: 1;
+      padding: 12px 14px;
+      background: white;
+      border: 1px solid rgba(91,110,189,0.25);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .ai-topic-input:focus {
+      border-color: #5B6EBD;
+    }
+
+    .ai-topic-input::placeholder { color: #BBBBBB; }
+
+    .ai-ask-btn {
+      padding: 12px 18px;
+      background: #5B6EBD;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .ai-ask-btn:hover   { opacity: 0.9; }
+    .ai-ask-btn:active  { transform: scale(0.97); }
+    .ai-ask-btn:disabled { opacity: 0.5; cursor: default; }
+
+    .ai-result {
+      margin-top: 16px;
+      padding: 16px;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid rgba(91,110,189,0.12);
+    }
+
+    .ai-verdict-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .ai-verdict-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .ai-verdict-label {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+
+    .ai-verdict-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--navy);
+      font-style: italic;
+    }
+
+    /* Loading dots */
+    .ai-loading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 12px 0 4px;
+    }
+
+    .ai-loading-text {
+      font-size: 13px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .ai-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .ai-dots span {
+      width: 6px;
+      height: 6px;
+      background: #5B6EBD;
+      border-radius: 50%;
+      animation: ai-pulse 1.2s ease-in-out infinite;
+    }
+
+    .ai-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .ai-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes ai-pulse {
+      0%, 80%, 100% { opacity: 0.2; transform: scale(0.9); }
+      40% { opacity: 1;   transform: scale(1.1); }
+    }
+
+    .ai-error {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #B91C1C;
+      font-style: italic;
+    }
+
     /* Disclaimer */
     .app-disclaimer {
       margin: 20px 22px 4px;
@@ -793,6 +947,49 @@
     </div>
     <div class="science-body" id="dash-science">—</div>
     <div class="science-sub" id="dash-science-sub">—</div>
+  </div>
+
+  <!-- AI Topic Suitability Checker -->
+  <div class="card ai-checker-card">
+    <div class="card-tag">
+      <div class="card-tag-dot" style="background:#5B6EBD"></div>
+      Topic Suitability Checker
+      <span class="ai-badge">AI</span>
+    </div>
+    <p class="ai-intro">Ask TOM whether a topic is safe to raise today. He will consult the intelligence and advise accordingly.</p>
+    <div class="ai-input-row">
+      <input
+        type="text"
+        id="ai-topic-input"
+        class="ai-topic-input"
+        placeholder="e.g. &quot;holiday budget&quot; or &quot;her mother&quot;"
+        maxlength="120"
+        onkeydown="if(event.key==='Enter')askTOM()"
+      >
+      <button class="ai-ask-btn" onclick="askTOM()" id="ai-ask-btn">
+        Ask TOM
+      </button>
+    </div>
+
+    <!-- Result area -->
+    <div id="ai-result" class="ai-result" hidden>
+      <div class="ai-verdict-row">
+        <div class="ai-verdict-icon" id="ai-verdict-icon">—</div>
+        <div class="ai-verdict-label" id="ai-verdict-label">—</div>
+      </div>
+      <div class="ai-verdict-text" id="ai-verdict-text">—</div>
+    </div>
+
+    <!-- Loading state -->
+    <div id="ai-loading" class="ai-loading" hidden>
+      <div class="ai-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="ai-loading-text">TOM is consulting his sources…</span>
+    </div>
+
+    <!-- Error state -->
+    <div id="ai-error" class="ai-error" hidden></div>
   </div>
 
   <!-- Disclaimer -->
@@ -1231,6 +1428,81 @@ async function installApp() {
   await _prompt.userChoice;
   _prompt = null;
   document.getElementById('install-banner').hidden = true;
+}
+
+/* ── AI TOPIC CHECKER ───────────────────────────────────── */
+
+async function askTOM() {
+  const input   = document.getElementById('ai-topic-input');
+  const topic   = input.value.trim();
+  if (!topic) { input.focus(); return; }
+
+  const startStr = localStorage.getItem('tom_start') || '';
+  const cycleLen = parseInt(localStorage.getItem('tom_cycle')) || 28;
+  const bleedLen = parseInt(localStorage.getItem('tom_bleed')) || 7;
+  const day      = getCycleDay(startStr, cycleLen);
+  const key      = getPhaseKey(day, cycleLen, bleedLen);
+  const ph       = PHASES[key];
+
+  // UI: show loading
+  document.getElementById('ai-result').hidden  = true;
+  document.getElementById('ai-error').hidden   = true;
+  document.getElementById('ai-loading').hidden = false;
+  const btn = document.getElementById('ai-ask-btn');
+  btn.disabled = true;
+
+  const systemPrompt = `You are TOM, a polite, mischievous British gentleman's assistant. Your sole purpose is to advise a man on whether a topic is appropriate to raise with his partner today, given her current hormonal phase. You are on the side of the partnership — not the man, not the woman, but the relationship itself.
+
+Current context:
+- Cycle day: ${day} of ${cycleLen}
+- Current phase: ${ph.name}
+- Phase character: ${ph.tipSub}
+
+IMPORTANT — CONDUCT RULES:
+If the topic submitted is rude, dismissive of the partner's feelings, crudely worded, or carries any whiff of male chauvinism (e.g. "why is she being so mental", "she's just being hormonal again", "how do I shut her up", "women are impossible"), you must NOT provide a normal verdict. Instead, set verdict to "A GENTLE WORD, OLD BOY" and icon to "🎩", and use the advice field to deliver a firm but witty British dressing-down. Make it sting with elegance — like a disappointed headmaster, not an internet troll. Remind him that TOM is a gentleman's assistant, not a cad's accomplice. Be funny, be pointed, but never cruel.
+
+For all normal, respectful topics, respond with genuine phase-aware guidance.
+
+Your response must follow this EXACT JSON format and nothing else:
+{
+  "verdict": "one of: SAFE PASSAGE | PROCEED CAREFULLY | CHOOSE YOUR MOMENT | STAND DOWN | A GENTLE WORD, OLD BOY",
+  "icon": "one of: ✅ | 🟡 | ⚠️ | 🚫 | 🎩",
+  "advice": "Two to four sentences of dry, witty British advice. For normal topics: phase-aware, helpful, mischievous. For rude/chauvinistic topics: a firm, elegant, genuinely funny reprimand. Always reference the specific wording they used. Never be crude or disrespectful toward women."
+}
+
+Respond ONLY with the JSON object. No preamble, no markdown fences, no extra text.`;
+
+  try {
+    const response = await fetch('/.netlify/functions/tom-ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        systemPrompt,
+        topic,
+      }),
+    });
+
+    const data = await response.json();
+    const text = data.content?.map(b => b.text || '').join('') || '';
+
+    // Strip possible markdown fences
+    const clean = text.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+
+    // Show result
+    document.getElementById('ai-verdict-icon').textContent  = parsed.icon   || '🎩';
+    document.getElementById('ai-verdict-label').textContent = parsed.verdict || 'TOM ADVISES';
+    document.getElementById('ai-verdict-text').textContent  = parsed.advice  || '';
+    document.getElementById('ai-result').hidden = false;
+
+  } catch (err) {
+    const errEl = document.getElementById('ai-error');
+    errEl.textContent = '"Most regrettable — TOM appears to have lost his connection to the intelligence network. Please try again presently."';
+    errEl.hidden = false;
+  } finally {
+    document.getElementById('ai-loading').hidden = true;
+    btn.disabled = false;
+  }
 }
 
 /* ── INIT ───────────────────────────────────────────────── */
