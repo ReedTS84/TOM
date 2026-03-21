@@ -1,53 +1,60 @@
-// sw.js - Service Worker
+/* TOM — Gentleman's Assistant | Service Worker */
+'use strict';
 
-// Setup cache name and files to cache
-const CACHE_NAME = 'my-cache-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/script.js',
-  'https://fonts.googleapis.com/css?family=Roboto'
+const CACHE  = 'tom-v1';
+const ASSETS = [
+  './',
+  './index.html',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
 ];
 
-// Install event listener
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
+/* Install — cache core assets */
+self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())
   );
 });
 
-// Activate event listener
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Removing old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
+/* Activate — remove old caches */
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+    ).then(() => self.clients.claim())
+  );
+});
+
+/* Fetch — cache-first for local assets, network-first for fonts */
+self.addEventListener('fetch', e => {
+  const url = new URL(e.request.url);
+
+  // Google Fonts — network first, cache fallback
+  if (url.hostname.includes('fonts.g')) {
+    e.respondWith(
+      fetch(e.request)
+        .then(res => {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+          return res;
         })
-      );
+        .catch(() => caches.match(e.request))
+    );
+    return;
+  }
+
+  // Everything else — cache first
+  e.respondWith(
+    caches.match(e.request).then(cached => {
+      if (cached) return cached;
+      return fetch(e.request).then(res => {
+        if (res.ok) {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+        }
+        return res;
+      });
     })
   );
-});
-
-// Fetch event listener with network-first strategy for Google Fonts
-self.addEventListener('fetch', event => {
-  if (event.request.url.includes('fonts.googleapis.com')) {
-    event.respondWith(
-      fetch(event.request).catch(() => caches.match(event.request))
-    );
-  } else {
-    event.respondWith(
-      caches.match(event.request).then(response => {
-        return response || fetch(event.request);
-      })
-    );
-  }
 });
