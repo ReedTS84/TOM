@@ -23,6 +23,7 @@ exports.handler = async (event) => {
   // Call the Anthropic API — key is read from Netlify environment variable
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
+    console.error('ANTHROPIC_API_KEY environment variable is not set');
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'API key not configured' }),
@@ -33,13 +34,12 @@ exports.handler = async (event) => {
     const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
-        'Content-Type':         'application/json',
-        'x-api-key':            apiKey,
-        'anthropic-version':    '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true',
+        'Content-Type':      'application/json',
+        'x-api-key':         apiKey,
+        'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model:      'claude-sonnet-4-20250514',
+        model:      'claude-haiku-4-5-20251001',
         max_tokens: 1000,
         system:     systemPrompt,
         messages:   [{ role: 'user', content: `The topic I wish to raise: "${topic}"` }],
@@ -48,6 +48,11 @@ exports.handler = async (event) => {
 
     const data = await anthropicRes.json();
 
+    // Log non-200 responses so they appear in Netlify function logs
+    if (!anthropicRes.ok) {
+      console.error('Anthropic API error:', anthropicRes.status, JSON.stringify(data));
+    }
+
     return {
       statusCode: anthropicRes.status,
       headers: { 'Content-Type': 'application/json' },
@@ -55,9 +60,11 @@ exports.handler = async (event) => {
     };
 
   } catch (err) {
+    console.error('Function fetch error:', err.message);
     return {
       statusCode: 502,
       body: JSON.stringify({ error: 'Upstream request failed', detail: err.message }),
     };
   }
 };
+
