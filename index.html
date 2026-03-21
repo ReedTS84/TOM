@@ -1,1 +1,1209 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>TOM Gentleman's Assistant</title>\n    <link rel="stylesheet" href="styles.css">\n</head>\n<body>\n    <div id="setup-screen">\n        <h1>Welcome to TOM Gentleman's Assistant</h1>\n        <button id="start-button">Start</button>\n    </div>\n    <div id="dashboard" style="display:none;">\n        <h2>Dashboard</h2>\n        <div id="settings-button">Settings</div>\n        <div id="data">Your data will appear here.</div>\n    </div>\n    <div id="settings-modal" style="display:none;">\n        <div class="modal-content">\n            <span class="close-button">&times;</span>\n            <h2>Settings</h2>\n            <form>\n                <label for="theme">Theme:</label>\n                <select id="theme">\n                    <option value="light">Light</option>\n                    <option value="dark">Dark</option>\n                </select>\n                <button type="submit">Save</button>\n            </form>\n        </div>\n    </div>\n    <script src="script.js"></script>\n</body>\n</html>\n
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1B2A4A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TOM">
+  <meta name="description" content="A polite, mischievous British companion for better relationship timing.">
+  <title>TOM — Gentleman's Assistant</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy:       #1B2A4A;
+      --navy-light: #243660;
+      --gold:       #C8A94E;
+      --gold-light: #E8C96B;
+      --cream:      #F7F3EC;
+      --white:      #FFFFFF;
+      --text:       #2D2D2D;
+      --muted:      #8A8A8A;
+      --card-bg:    #FFFFFF;
+      --shadow:     0 2px 16px rgba(27,42,74,0.09);
+
+      --menstrual:       #C9616D;
+      --menstrual-light: #FAEAEC;
+      --follicular:      #5DAA82;
+      --follicular-light:#E2F3EB;
+      --ovulation:       #E8B84B;
+      --ovulation-light: #FBF3DC;
+      --luteal:          #8B6BB1;
+      --luteal-light:    #EDE7F6;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    [hidden] { display: none !important; }
+
+    /* ── SETUP SCREEN ────────────────────────────────────── */
+
+    #setup-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      background: var(--navy);
+      background-image:
+        radial-gradient(ellipse at 20% 10%, rgba(200,169,78,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 90%, rgba(139,107,177,0.10) 0%, transparent 50%);
+    }
+
+    .setup-crown {
+      font-size: 32px;
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+
+    .setup-logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 72px;
+      font-weight: 700;
+      letter-spacing: -3px;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .setup-tagline {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 40px;
+      font-weight: 500;
+    }
+
+    .setup-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 24px;
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 400px;
+      backdrop-filter: blur(10px);
+    }
+
+    .setup-card h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      color: white;
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+
+    .setup-card > p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .field-group {
+      margin-bottom: 18px;
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .field-group input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 12px;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .field-group input:focus {
+      border-color: var(--gold);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .field-group input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1) opacity(0.4);
+    }
+
+    .field-hint {
+      font-size: 12px;
+      color: rgba(255,255,255,0.28);
+      margin-top: 5px;
+      font-style: italic;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background: var(--gold);
+      border: none;
+      border-radius: 12px;
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: opacity 0.2s, transform 0.1s;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-primary:hover { opacity: 0.92; }
+    .btn-primary:active { transform: scale(0.98); opacity: 0.88; }
+
+    .setup-footnote {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+      margin-top: 28px;
+      max-width: 320px;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    /* ── DASHBOARD ───────────────────────────────────────── */
+
+    #dashboard {
+      max-width: 480px;
+      margin: 0 auto;
+      padding-bottom: 48px;
+    }
+
+    /* Header */
+    .app-header {
+      background: var(--navy);
+      background-image: radial-gradient(ellipse at 30% 0%, rgba(200,169,78,0.10) 0%, transparent 60%);
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+
+    .app-logo-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .app-logo-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+
+    .app-logo-sub {
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase;
+    }
+
+    .btn-settings {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      color: rgba(255,255,255,0.5);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 17px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-settings:hover {
+      background: rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* Install banner */
+    #install-banner {
+      margin: 14px 16px 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 14px;
+      padding: 12px 14px 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #install-banner p {
+      flex: 1;
+      font-size: 13px;
+      color: var(--navy);
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    .btn-install {
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .btn-close-banner {
+      background: transparent;
+      border: none;
+      color: rgba(27,42,74,0.4);
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 2px;
+    }
+
+    /* Phase Hero */
+    .phase-hero {
+      padding: 24px 22px 6px;
+    }
+
+    .phase-label-small {
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .phase-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.1;
+    }
+
+    .phase-day-text {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 5px;
+      font-weight: 400;
+    }
+
+    .phase-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+
+    .phase-pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    /* Wheel */
+    .wheel-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 20px 0 10px;
+    }
+
+    #cycle-wheel {
+      filter: drop-shadow(0 6px 24px rgba(27,42,74,0.14));
+    }
+
+    /* Countdown */
+    .countdown-bar {
+      margin: 4px 16px 4px;
+      background: var(--navy);
+      background-image: linear-gradient(135deg, var(--navy) 0%, #243060 100%);
+      border-radius: 50px;
+      padding: 11px 22px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      font-weight: 400;
+    }
+
+    .countdown-bar strong {
+      color: var(--gold);
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 2px;
+    }
+
+    /* Cards */
+    .card {
+      margin: 10px 16px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 20px 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-tag {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .card-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .card-quote {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--navy);
+      font-style: italic;
+    }
+
+    .card-note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* Suitability */
+    .suit-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: 4px;
+    }
+
+    .suit-row {
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      background: #F3F3F3;
+      color: #BBBBBB;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s;
+    }
+
+    .suit-row.lit { color: white; font-weight: 600; }
+    .suit-row.lit.s-green  { background: #48BB78; }
+    .suit-row.lit.s-blue   { background: #4299E1; }
+    .suit-row.lit.s-amber  { background: #ED8936; }
+    .suit-row.lit.s-red    { background: #E53E3E; }
+
+    .suit-icon { font-size: 15px; }
+
+    /* Advice card */
+    .advice-card {
+      background: linear-gradient(140deg, #F4EDD8 0%, #FAF6EE 100%);
+      border: 1px solid rgba(200,169,78,0.25);
+    }
+
+    .advice-card .card-tag { color: #9A7D35; }
+
+    .advice-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 20px;
+      font-style: italic;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+    .advice-meta {
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--gold);
+      margin-top: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* Science card */
+    .science-card {
+      background: linear-gradient(140deg, var(--navy) 0%, #1E3060 100%);
+    }
+
+    .science-card .card-tag { color: rgba(255,255,255,0.38); }
+    .science-card .card-tag-dot { background: var(--gold) !important; }
+
+    .science-body {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .science-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.38);
+      margin-top: 10px;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* Disclaimer */
+    .app-disclaimer {
+      margin: 20px 22px 4px;
+      padding: 18px 20px;
+      background: rgba(255,255,255,0.5);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .disclaimer-label {
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #C0C0C0;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .disclaimer-text {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    /* ── SETTINGS MODAL ──────────────────────────────────── */
+
+    #settings-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 200;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .settings-sheet {
+      background: white;
+      border-radius: 24px 24px 0 0;
+      padding: 28px 24px 36px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .settings-handle {
+      width: 36px;
+      height: 4px;
+      background: #E0E0E0;
+      border-radius: 2px;
+      margin: 0 auto 22px;
+    }
+
+    .settings-sheet h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      color: var(--navy);
+      margin-bottom: 22px;
+    }
+
+    .settings-sheet .field-group label {
+      color: var(--muted);
+    }
+
+    .settings-sheet .field-group input {
+      background: var(--cream);
+      border: 1px solid #E5E5E5;
+      color: var(--text);
+    }
+
+    .settings-sheet .field-group input:focus {
+      border-color: var(--navy);
+      background: #FAFAFA;
+    }
+
+    .settings-btns {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      padding: 14px;
+      background: var(--cream);
+      border: 1px solid #E0E0E0;
+      border-radius: 12px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .settings-sheet .btn-primary {
+      flex: 2;
+      background: var(--navy);
+      color: white;
+      margin-top: 0;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 380px) {
+      .phase-title { font-size: 26px; }
+      .setup-logo  { font-size: 60px; }
+    }
+
+    @media (min-width: 480px) {
+      #dashboard { border-left: 1px solid rgba(0,0,0,0.05); border-right: 1px solid rgba(0,0,0,0.05); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ──────────────────────────────────────────────────────────
+     SETUP SCREEN
+─────────────────────────────────────────────────────────── -->
+<div id="setup-screen">
+  <div class="setup-crown">👑</div>
+  <div class="setup-logo">TOM</div>
+  <div class="setup-tagline">The Gentleman's Assistant</div>
+
+  <div class="setup-card">
+    <h2>A word before we begin.</h2>
+    <p>To serve you with appropriate discretion, TOM requires a few pertinent details. Everything remains on your device. Naturally.</p>
+
+    <div class="field-group">
+      <label>Last Period Start Date</label>
+      <input type="date" id="s-start" autocomplete="off">
+    </div>
+
+    <div class="field-group">
+      <label>Cycle Length (days)</label>
+      <input type="number" id="s-cycle" value="28" min="21" max="45">
+      <div class="field-hint">Average is 28. Most cycles range 21–35 days.</div>
+    </div>
+
+    <div class="field-group">
+      <label>Period Length (days)</label>
+      <input type="number" id="s-bleed" value="7" min="2" max="10">
+      <div class="field-hint">How many days the period typically lasts.</div>
+    </div>
+
+    <button class="btn-primary" onclick="saveAndBegin()">Begin Gentlemanly Guidance</button>
+  </div>
+
+  <p class="setup-footnote">
+    "This app offers guidance based on typical hormonal patterns. Human beings remain gloriously unpredictable. TOM is a helpful guide, not an exact science."
+  </p>
+</div>
+
+
+<!-- ──────────────────────────────────────────────────────────
+     DASHBOARD
+─────────────────────────────────────────────────────────── -->
+<div id="dashboard" hidden>
+
+  <!-- Header -->
+  <div class="app-header">
+    <div class="app-logo-wrap">
+      <span class="app-logo-text">TOM</span>
+      <span class="app-logo-sub">Gentleman's Assistant</span>
+    </div>
+    <button class="btn-settings" onclick="openSettings()" title="Settings">⚙</button>
+  </div>
+
+  <!-- Install Banner -->
+  <div id="install-banner" hidden>
+    <p>📱 Install TOM for quick offline access.</p>
+    <button class="btn-install" onclick="installApp()">Install</button>
+    <button class="btn-close-banner" onclick="document.getElementById('install-banner').hidden=true">×</button>
+  </div>
+
+  <!-- Phase Hero -->
+  <div class="phase-hero">
+    <div class="phase-label-small">Current Status</div>
+    <div class="phase-title" id="dash-phase-name">—</div>
+    <div class="phase-day-text" id="dash-day-text">—</div>
+    <div class="phase-pill" id="dash-phase-pill">
+      <div class="phase-pill-dot" id="dash-pill-dot"></div>
+      <span id="dash-pill-label">—</span>
+    </div>
+  </div>
+
+  <!-- Cycle Wheel -->
+  <div class="wheel-wrap">
+    <svg id="cycle-wheel" width="270" height="270" viewBox="0 0 270 270"
+         role="img" aria-label="Cycle phase wheel"></svg>
+  </div>
+
+  <!-- Countdown -->
+  <div class="countdown-bar">
+    Next period estimated in&nbsp;<strong id="dash-countdown">—</strong>&nbsp;days
+  </div>
+
+  <!-- Today's Insight -->
+  <div class="card">
+    <div class="card-tag">
+      <div class="card-tag-dot" id="insight-dot"></div>
+      Today's Insight
+    </div>
+    <div class="card-quote" id="dash-insight">—</div>
+  </div>
+
+  <!-- Gentleman's Tip -->
+  <div class="card">
+    <div class="card-tag">
+      <div class="card-tag-dot" style="background:var(--gold)"></div>
+      Gentleman's Tip
+    </div>
+    <div class="card-quote" id="dash-tip">—</div>
+    <div class="card-note" id="dash-tip-sub">—</div>
+  </div>
+
+  <!-- Conversation Suitability -->
+  <div class="card">
+    <div class="card-tag">
+      <div class="card-tag-dot" style="background:#48BB78"></div>
+      Conversation Suitability
+    </div>
+    <div class="suit-grid">
+      <div class="suit-row" data-suit="green">
+        <span class="suit-icon">✅</span> Very Safe — Open Season
+      </div>
+      <div class="suit-row" data-suit="blue">
+        <span class="suit-icon">🟦</span> Proceed Normally
+      </div>
+      <div class="suit-row" data-suit="amber">
+        <span class="suit-icon">⚠️</span> Choose Your Moment Carefully
+      </div>
+      <div class="suit-row" data-suit="red">
+        <span class="suit-icon">🚫</span> Perhaps Tomorrow, Old Boy
+      </div>
+    </div>
+  </div>
+
+  <!-- Daily Advice -->
+  <div class="card advice-card">
+    <div class="card-tag">
+      <div class="card-tag-dot" style="background:var(--gold)"></div>
+      Daily Gentleman's Advice
+    </div>
+    <div class="advice-text" id="dash-advice">—</div>
+    <div class="advice-meta" id="dash-advice-meta">—</div>
+  </div>
+
+  <!-- Science Bit -->
+  <div class="card science-card">
+    <div class="card-tag">
+      <div class="card-tag-dot"></div>
+      The Science Bit
+    </div>
+    <div class="science-body" id="dash-science">—</div>
+    <div class="science-sub" id="dash-science-sub">—</div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="app-disclaimer">
+    <div class="disclaimer-label">A Gentleman's Note</div>
+    <div class="disclaimer-text">
+      This app offers guidance based on typical hormonal patterns. Human beings remain gloriously unpredictable. TOM is a helpful guide, not an exact science. Biology occasionally ignores calendars.
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ──────────────────────────────────────────────────────────
+     SETTINGS MODAL
+─────────────────────────────────────────────────────────── -->
+<div id="settings-modal" hidden>
+  <div class="settings-sheet">
+    <div class="settings-handle"></div>
+    <h3>Adjust Settings</h3>
+
+    <div class="field-group">
+      <label>Last Period Start Date</label>
+      <input type="date" id="m-start">
+    </div>
+    <div class="field-group">
+      <label>Cycle Length (days)</label>
+      <input type="number" id="m-cycle" min="21" max="45">
+    </div>
+    <div class="field-group">
+      <label>Period Length (days)</label>
+      <input type="number" id="m-bleed" min="2" max="10">
+    </div>
+
+    <div class="settings-btns">
+      <button class="btn-cancel" onclick="closeSettings()">Cancel</button>
+      <button class="btn-primary" onclick="saveSettings()">Update</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ──────────────────────────────────────────────────────────
+     JAVASCRIPT
+─────────────────────────────────────────────────────────── -->
+<script>
+'use strict';
+
+/* ── PHASE DATA ─────────────────────────────────────────── */
+const PHASES = {
+  menstrual: {
+    name: 'Menstrual Phase',
+    col:  '#C9616D',
+    bg:   '#FAEAEC',
+    emoji:'🌹',
+    suit: 'red',
+    insights: [
+      '"She is navigating the interior. Think lighthouse keeper, not tour guide."',
+      '"The body is doing significant work. Your job is to notice this quietly."',
+      '"Comfort is the currency of the day. Invest accordingly."',
+      '"This is not the moment for restructuring plans. Or cupboards."',
+    ],
+    tips: [
+      '"Warmth is required. In attitude, temperature, and hot beverages."',
+      '"Now is not the moment for rearranging the sock drawer. Together or otherwise."',
+      '"She may require space, or company. The distinction requires careful observation."',
+      '"Silence, delivered gently, is underrated. Deploy it now."',
+    ],
+    tipSub: 'Comfort strategy recommended. Low demands, high availability.',
+    advice: [
+      '"Tea deployment strongly advised."',
+      '"Your silence is, in fact, a gift."',
+      '"Now is not the moment to suggest a bracing walk."',
+      '"The phrase \'you\'re overreacting\' is on permanent sabbatical."',
+      '"Hot water bottle procurement: a commendable initiative."',
+      '"Consider this excellent practice for your listening skills."',
+    ],
+    science: 'Oestrogen and progesterone are at their lowest. The uterine lining is shedding — a process that can cause fatigue, cramping, and a strong preference for horizontal surfaces. Energy is being redirected internally.',
+    sciSub: 'This phase typically lasts 3–7 days. Rest and warmth are physiologically sensible, not merely preferred.',
+  },
+  follicular: {
+    name: 'Follicular Phase',
+    col:  '#5DAA82',
+    bg:   '#E2F3EB',
+    emoji:'🌱',
+    suit: 'blue',
+    insights: [
+      '"Spring is arriving. Best to be presentable."',
+      '"The conversational forecast is clearing. Cautious optimism is warranted."',
+      '"Energy is returning. An excellent time to recall that you exist."',
+      '"Shoots of enthusiasm are emerging. Do not tread on them."',
+    ],
+    tips: [
+      '"Initiative is welcome today. Poor timing, as ever, is not."',
+      '"Suggest that restaurant she mentioned three weeks ago."',
+      '"Plans made now tend to stick. Bring suggestions, not demands."',
+      '"The diplomatic window is opening. Step through it thoughtfully."',
+    ],
+    tipSub: 'The weather is improving. Proceed with measured confidence.',
+    advice: [
+      '"The conversational forecast is clearing. Proceed with measured optimism."',
+      '"You may briefly appear more charming than usual. Don\'t push it."',
+      '"An excellent day to suggest that restaurant she mentioned."',
+      '"Spring is arriving. Perhaps tidy up."',
+      '"Plans formed now have a remarkably good survival rate."',
+      '"Initiative is welcome. Misguided initiative remains inadvisable."',
+    ],
+    science: 'Oestrogen rises steadily as follicles develop in the ovaries. Serotonin and dopamine levels improve, bringing increased energy, mental clarity, and renewed social engagement. This is a biologically optimistic time.',
+    sciSub: 'This phase typically runs from the end of menstruation to ovulation — roughly days 8–13 on a 28-day cycle.',
+  },
+  ovulation: {
+    name: 'Ovulation Phase',
+    col:  '#E8B84B',
+    bg:   '#FBF3DC',
+    emoji:'✨',
+    suit: 'green',
+    insights: [
+      '"You may briefly appear significantly more charming than usual. Nature is conspiring."',
+      '"Peak social season. Meteorological conditions: excellent."',
+      '"An outstanding day to be the person she married, or intends to."',
+      '"The stars are aligned. Biology has done its part. Over to you."',
+    ],
+    tips: [
+      '"Have that conversation you\'ve been quietly rehearsing. Today is the day."',
+      '"Plan something memorable. Timing, for once, is on your side."',
+      '"Confidence is appropriate. Overconfidence remains your oldest adversary."',
+      '"Peak diplomatic weather. Deploy accordingly and with some style."',
+    ],
+    tipSub: 'Optimal conditions for meaningful exchanges. Proceed accordingly.',
+    advice: [
+      '"You may briefly appear more charming than usual."',
+      '"Nature is conspiring in your favour. Don\'t waste it."',
+      '"Peak diplomatic weather. Use it wisely."',
+      '"An excellent day to have that conversation you\'ve been rehearsing."',
+      '"Confidence is appropriate. Overconfidence remains your oldest enemy."',
+      '"This is the window. You\'ll know it by the fact that everything seems fine."',
+    ],
+    science: 'A surge of luteinising hormone (LH) triggers the release of an egg. Oestrogen peaks, and testosterone makes a brief but notable appearance. Communication, mood, and social energy are at their height.',
+    sciSub: 'Ovulation typically occurs around day 14 of a 28-day cycle, though biology occasionally has other ideas.',
+  },
+  luteal: {
+    name: 'Luteal Phase',
+    col:  '#8B6BB1',
+    bg:   '#EDE7F6',
+    emoji:'🌙',
+    suit: 'amber',
+    insights: [
+      '"Tread thoughtfully. The emotional barometer is sensitive today."',
+      '"She may be feeling more than usual. Your role is to be appropriately less."',
+      '"Now may not be the day to reorganise shared cupboards."',
+      '"Hormonal forecasting suggests: patience. Significant patience."',
+    ],
+    tips: [
+      '"Patience is your finest quality today. Demonstrate it liberally."',
+      '"The phrase \'calm down\' should remain in its locked cabinet."',
+      '"Listening is an underrated skill. This is its finest hour."',
+      '"Thoughtful navigation required. Measure twice, speak once."',
+    ],
+    tipSub: 'Thoughtful navigation required. Your listening skills are your greatest asset.',
+    advice: [
+      '"Now may not be the day to test experimental relationship theories."',
+      '"Your listening skills are your greatest asset. Use them."',
+      '"The cupboard reorganisation project can wait until spring."',
+      '"Choose your moments with the precision of a Swiss timepiece."',
+      '"A wise man knows when to speak. A wiser one knows today isn\'t it."',
+      '"Now may not be the day to mention that thing from three weeks ago."',
+    ],
+    science: 'Progesterone rises as the body prepares for potential pregnancy. When this does not occur, levels drop sharply near cycle\'s end — causing mood shifts, irritability, and heightened sensitivity. Entirely biological. Entirely valid.',
+    sciSub: 'The luteal phase typically spans days 15–28. Progesterone withdrawal before menstruation is responsible for PMS symptoms.',
+  },
+};
+
+/* ── CALCULATION HELPERS ────────────────────────────────── */
+
+function getPhaseKey(day, cycleLen, bleedLen) {
+  const ovDay = cycleLen - 14;
+  if (day <= bleedLen)        return 'menstrual';
+  if (day < ovDay)            return 'follicular';
+  if (day <= ovDay + 1)       return 'ovulation';
+  return 'luteal';
+}
+
+function getCycleDay(startStr, cycleLen) {
+  const start = new Date(startStr);
+  start.setHours(0,0,0,0);
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const diff = Math.floor((today - start) / 86400000);
+  if (diff < 0) return 1;
+  return (diff % cycleLen) + 1;
+}
+
+function getDaysUntilNext(startStr, cycleLen) {
+  const start = new Date(startStr);
+  start.setHours(0,0,0,0);
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const diff = Math.floor((today - start) / 86400000);
+  if (diff < 0) return cycleLen + diff;
+  const past = Math.floor(diff / cycleLen);
+  const next = new Date(start);
+  next.setDate(start.getDate() + (past + 1) * cycleLen);
+  return Math.ceil((next - today) / 86400000);
+}
+
+function rotate(arr, seed) {
+  return arr[Math.abs(seed) % arr.length];
+}
+
+function todaySeed() {
+  const d = new Date();
+  return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+}
+
+/* ── WHEEL DRAWING ──────────────────────────────────────── */
+
+function toXY(cx, cy, r, deg) {
+  const rad = (deg - 90) * Math.PI / 180;
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+
+function donut(cx, cy, ro, ri, a0, a1) {
+  const s1 = toXY(cx, cy, ro, a0), e1 = toXY(cx, cy, ro, a1);
+  const s2 = toXY(cx, cy, ri, a1), e2 = toXY(cx, cy, ri, a0);
+  const lg = (a1 - a0) > 180 ? 1 : 0;
+  return `M${f(s1.x)},${f(s1.y)} A${ro},${ro} 0 ${lg} 1 ${f(e1.x)},${f(e1.y)} L${f(s2.x)},${f(s2.y)} A${ri},${ri} 0 ${lg} 0 ${f(e2.x)},${f(e2.y)} Z`;
+}
+
+function f(n) { return n.toFixed(2); }
+
+function el(tag, attrs = {}) {
+  const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  return e;
+}
+
+function drawWheel(day, cycleLen, bleedLen) {
+  const svg = document.getElementById('cycle-wheel');
+  svg.innerHTML = '';
+  const cx = 135, cy = 135, ro = 112, ri = 70, gap = 1.6;
+  const ovDay = cycleLen - 14;
+
+  const segs = [
+    { key:'menstrual',  s:1,          e:bleedLen },
+    { key:'follicular', s:bleedLen+1, e:ovDay-1  },
+    { key:'ovulation',  s:ovDay,      e:ovDay+1  },
+    { key:'luteal',     s:ovDay+2,    e:cycleLen },
+  ];
+
+  const dpd = 360 / cycleLen;
+
+  segs.forEach(seg => {
+    const p = PHASES[seg.key];
+    const a0 = (seg.s - 1) * dpd + gap;
+    const a1 = seg.e * dpd - gap;
+    if (a1 <= a0) return;
+
+    // Arc
+    const path = el('path', { d: donut(cx,cy,ro,ri,a0,a1), fill: p.col, opacity:'0.88' });
+    svg.appendChild(path);
+
+    // Label — only if segment is wide enough
+    const days = seg.e - seg.s + 1;
+    if (days >= 3) {
+      const mid = (a0 + a1) / 2;
+      const lr  = (ro + ri) / 2;
+      const lp  = toXY(cx, cy, lr, mid);
+      const short = { menstrual:'M', follicular:'F', ovulation:'O', luteal:'L' };
+
+      const t = el('text', {
+        x: f(lp.x), y: f(lp.y),
+        'text-anchor':'middle', 'dominant-baseline':'middle',
+        fill:'white', 'font-size': days > 4 ? '12' : '10',
+        'font-weight':'700', 'font-family':'DM Sans, sans-serif',
+        opacity:'0.9',
+      });
+      t.textContent = days > 6
+        ? seg.key.charAt(0).toUpperCase() + seg.key.slice(1,4) + '.'
+        : short[seg.key];
+      svg.appendChild(t);
+    }
+  });
+
+  // Inner circle
+  svg.appendChild(el('circle', { cx, cy, r: ri - 2, fill:'#F7F3EC' }));
+
+  // Day number
+  const dayT = el('text', {
+    x: cx, y: cy - 10,
+    'text-anchor':'middle', 'dominant-baseline':'middle',
+    fill:'#1B2A4A', 'font-size':'34', 'font-weight':'700',
+    'font-family':'Playfair Display, Georgia, serif',
+  });
+  dayT.textContent = day;
+  svg.appendChild(dayT);
+
+  const dayL = el('text', {
+    x: cx, y: cy + 16,
+    'text-anchor':'middle', 'dominant-baseline':'middle',
+    fill:'#8A8A8A', 'font-size':'9', 'letter-spacing':'2',
+    'font-family':'DM Sans, sans-serif', 'font-weight':'600',
+  });
+  dayL.textContent = 'OF CYCLE';
+  svg.appendChild(dayL);
+
+  // Pointer arrow
+  const pAngle = (day - 1) * dpd;
+  const pTip   = toXY(cx, cy, ro + 12, pAngle);
+  const pL     = toXY(cx, cy, ro + 3,  pAngle - 5);
+  const pR     = toXY(cx, cy, ro + 3,  pAngle + 5);
+  const arrow  = el('polygon', {
+    points: `${f(pTip.x)},${f(pTip.y)} ${f(pL.x)},${f(pL.y)} ${f(pR.x)},${f(pR.y)}`,
+    fill: '#1B2A4A',
+  });
+  svg.appendChild(arrow);
+
+  // Pointer dot on ring
+  const pd = toXY(cx, cy, ro - 10, pAngle);
+  svg.appendChild(el('circle', { cx: f(pd.x), cy: f(pd.y), r:'5', fill:'white', stroke:'#1B2A4A', 'stroke-width':'2' }));
+}
+
+/* ── DASHBOARD UPDATE ───────────────────────────────────── */
+
+function updateDashboard() {
+  const startStr  = localStorage.getItem('tom_start')  || '';
+  const cycleLen  = parseInt(localStorage.getItem('tom_cycle')) || 28;
+  const bleedLen  = parseInt(localStorage.getItem('tom_bleed')) || 7;
+
+  const day  = getCycleDay(startStr, cycleLen);
+  const key  = getPhaseKey(day, cycleLen, bleedLen);
+  const ph   = PHASES[key];
+  const left = getDaysUntilNext(startStr, cycleLen);
+  const seed = todaySeed() + day;
+
+  // Phase hero
+  document.getElementById('dash-phase-name').textContent = ph.name;
+  document.getElementById('dash-day-text').textContent   = `Cycle Day ${day} of ${cycleLen}`;
+
+  const pill = document.getElementById('dash-phase-pill');
+  pill.style.background = ph.bg;
+  pill.style.color       = ph.col;
+  document.getElementById('dash-pill-dot').style.background = ph.col;
+  document.getElementById('dash-pill-label').textContent = `${ph.emoji} ${ph.name}`;
+
+  // Wheel
+  drawWheel(day, cycleLen, bleedLen);
+
+  // Countdown
+  document.getElementById('dash-countdown').textContent = left;
+
+  // Insight
+  document.getElementById('insight-dot').style.background = ph.col;
+  document.getElementById('dash-insight').textContent = rotate(ph.insights, seed);
+
+  // Tip
+  document.getElementById('dash-tip').textContent     = rotate(ph.tips, seed + 1);
+  document.getElementById('dash-tip-sub').textContent = ph.tipSub;
+
+  // Suitability
+  const suitMap = { green:'s-green', blue:'s-blue', amber:'s-amber', red:'s-red' };
+  document.querySelectorAll('.suit-row').forEach(r => {
+    r.className = 'suit-row';
+    if (r.dataset.suit === ph.suit) {
+      r.classList.add('lit', suitMap[ph.suit]);
+    }
+  });
+
+  // Advice
+  document.getElementById('dash-advice').textContent      = rotate(ph.advice, seed + 2);
+  document.getElementById('dash-advice-meta').textContent = `Guidance for Day ${day}`;
+
+  // Science
+  document.getElementById('dash-science').textContent     = ph.science;
+  document.getElementById('dash-science-sub').textContent = ph.sciSub;
+}
+
+/* ── SETUP & SETTINGS ───────────────────────────────────── */
+
+function saveAndBegin() {
+  const start = document.getElementById('s-start').value;
+  const cycle = parseInt(document.getElementById('s-cycle').value) || 28;
+  const bleed = parseInt(document.getElementById('s-bleed').value) || 7;
+  if (!start) { alert('Please enter the cycle start date.'); return; }
+  localStorage.setItem('tom_start', start);
+  localStorage.setItem('tom_cycle', cycle);
+  localStorage.setItem('tom_bleed', bleed);
+  showDashboard();
+}
+
+function openSettings() {
+  document.getElementById('m-start').value = localStorage.getItem('tom_start') || '';
+  document.getElementById('m-cycle').value = localStorage.getItem('tom_cycle') || 28;
+  document.getElementById('m-bleed').value = localStorage.getItem('tom_bleed') || 7;
+  document.getElementById('settings-modal').hidden = false;
+}
+
+function closeSettings() {
+  document.getElementById('settings-modal').hidden = true;
+}
+
+function saveSettings() {
+  const start = document.getElementById('m-start').value;
+  const cycle = parseInt(document.getElementById('m-cycle').value) || 28;
+  const bleed = parseInt(document.getElementById('m-bleed').value) || 7;
+  if (!start) { alert('Please enter a date.'); return; }
+  localStorage.setItem('tom_start', start);
+  localStorage.setItem('tom_cycle', cycle);
+  localStorage.setItem('tom_bleed', bleed);
+  closeSettings();
+  updateDashboard();
+}
+
+function showDashboard() {
+  document.getElementById('setup-screen').hidden = true;
+  document.getElementById('dashboard').hidden    = false;
+  updateDashboard();
+}
+
+/* Close settings when clicking backdrop */
+document.getElementById('settings-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeSettings();
+});
+
+/* ── PWA INSTALL ────────────────────────────────────────── */
+
+let _prompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _prompt = e;
+  document.getElementById('install-banner').hidden = false;
+});
+
+async function installApp() {
+  if (!_prompt) return;
+  _prompt.prompt();
+  await _prompt.userChoice;
+  _prompt = null;
+  document.getElementById('install-banner').hidden = true;
+}
+
+/* ── INIT ───────────────────────────────────────────────── */
+
+(function init() {
+  // Set today as default date in setup form
+  document.getElementById('s-start').value = new Date().toISOString().split('T')[0];
+
+  if (localStorage.getItem('tom_start')) {
+    showDashboard();
+  }
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+})();
+</script>
+</body>
+</html>
