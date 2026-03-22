@@ -671,6 +671,73 @@
       font-style: italic;
     }
 
+    /* ── TEA / KO-FI CARD ────────────────────────────────── */
+
+    .tea-card {
+      background: linear-gradient(140deg, #1B2A4A 0%, #243660 100%);
+      border: 1px solid rgba(200,169,78,0.25);
+    }
+
+    .tea-card .card-tag {
+      color: rgba(255,255,255,0.38);
+    }
+
+    .tea-body {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .tea-glass {
+      font-size: 36px;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .tea-headline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .tea-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+    }
+
+    .tea-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: var(--gold);
+      border-radius: 12px;
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .tea-btn:hover  { opacity: 0.90; }
+    .tea-btn:active { transform: scale(0.98); opacity: 0.85; }
+
+    .tea-footnote {
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+      margin-top: 14px;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
     /* Disclaimer */
     .app-disclaimer {
       margin: 20px 22px 4px;
@@ -992,6 +1059,30 @@
     <div id="ai-error" class="ai-error" hidden></div>
   </div>
 
+  <!-- Buy TOM a Cuppa -->
+  <div class="card tea-card">
+    <div class="card-tag">
+      <div class="card-tag-dot" style="background:var(--gold)"></div>
+      A Gentleman's Gesture
+    </div>
+    <div class="tea-body">
+      <span class="tea-glass">🍵</span>
+      <div>
+        <div class="tea-headline">TOM Runs On Tea</div>
+        <div class="tea-sub">If TOM has kept the peace, a small token of appreciation is always graciously received.</div>
+      </div>
+    </div>
+    <a
+      class="tea-btn"
+      href="https://ko-fi.com/put_the_kettle_on"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      🍵 &nbsp;Put The Kettle On
+    </a>
+    <div class="tea-footnote">"A gentleman's intelligence network requires fuel. A nice cuppa should do the trick." — TOM</div>
+  </div>
+
   <!-- Disclaimer -->
   <div class="app-disclaimer">
     <div class="disclaimer-label">A Gentleman's Note</div>
@@ -1247,11 +1338,9 @@ function drawWheel(day, cycleLen, bleedLen) {
     const a1 = seg.e * dpd - gap;
     if (a1 <= a0) return;
 
-    // Arc
     const path = el('path', { d: donut(cx,cy,ro,ri,a0,a1), fill: p.col, opacity:'0.88' });
     svg.appendChild(path);
 
-    // Label — only if segment is wide enough
     const days = seg.e - seg.s + 1;
     if (days >= 3) {
       const mid = (a0 + a1) / 2;
@@ -1273,10 +1362,8 @@ function drawWheel(day, cycleLen, bleedLen) {
     }
   });
 
-  // Inner circle
   svg.appendChild(el('circle', { cx, cy, r: ri - 2, fill:'#F7F3EC' }));
 
-  // Day number
   const dayT = el('text', {
     x: cx, y: cy - 10,
     'text-anchor':'middle', 'dominant-baseline':'middle',
@@ -1295,7 +1382,6 @@ function drawWheel(day, cycleLen, bleedLen) {
   dayL.textContent = 'OF CYCLE';
   svg.appendChild(dayL);
 
-  // Pointer arrow
   const pAngle = (day - 1) * dpd;
   const pTip   = toXY(cx, cy, ro + 12, pAngle);
   const pL     = toXY(cx, cy, ro + 3,  pAngle - 5);
@@ -1306,7 +1392,6 @@ function drawWheel(day, cycleLen, bleedLen) {
   });
   svg.appendChild(arrow);
 
-  // Pointer dot on ring
   const pd = toXY(cx, cy, ro - 10, pAngle);
   svg.appendChild(el('circle', { cx: f(pd.x), cy: f(pd.y), r:'5', fill:'white', stroke:'#1B2A4A', 'stroke-width':'2' }));
 }
@@ -1324,7 +1409,6 @@ function updateDashboard() {
   const left = getDaysUntilNext(startStr, cycleLen);
   const seed = todaySeed() + day;
 
-  // Phase hero
   document.getElementById('dash-phase-name').textContent = ph.name;
   document.getElementById('dash-day-text').textContent   = `Cycle Day ${day} of ${cycleLen}`;
 
@@ -1334,21 +1418,16 @@ function updateDashboard() {
   document.getElementById('dash-pill-dot').style.background = ph.col;
   document.getElementById('dash-pill-label').textContent = `${ph.emoji} ${ph.name}`;
 
-  // Wheel
   drawWheel(day, cycleLen, bleedLen);
 
-  // Countdown
   document.getElementById('dash-countdown').textContent = left;
 
-  // Insight
   document.getElementById('insight-dot').style.background = ph.col;
   document.getElementById('dash-insight').textContent = rotate(ph.insights, seed);
 
-  // Tip
   document.getElementById('dash-tip').textContent     = rotate(ph.tips, seed + 1);
   document.getElementById('dash-tip-sub').textContent = ph.tipSub;
 
-  // Suitability
   const suitMap = { green:'s-green', blue:'s-blue', amber:'s-amber', red:'s-red' };
   document.querySelectorAll('.suit-row').forEach(r => {
     r.className = 'suit-row';
@@ -1357,11 +1436,9 @@ function updateDashboard() {
     }
   });
 
-  // Advice
   document.getElementById('dash-advice').textContent      = rotate(ph.advice, seed + 2);
   document.getElementById('dash-advice-meta').textContent = `Guidance for Day ${day}`;
 
-  // Science
   document.getElementById('dash-science').textContent     = ph.science;
   document.getElementById('dash-science-sub').textContent = ph.sciSub;
 }
@@ -1408,7 +1485,6 @@ function showDashboard() {
   updateDashboard();
 }
 
-/* Close settings when clicking backdrop */
 document.getElementById('settings-modal').addEventListener('click', function(e) {
   if (e.target === this) closeSettings();
 });
@@ -1444,7 +1520,6 @@ async function askTOM() {
   const key      = getPhaseKey(day, cycleLen, bleedLen);
   const ph       = PHASES[key];
 
-  // UI: show loading
   document.getElementById('ai-result').hidden  = true;
   document.getElementById('ai-error').hidden   = true;
   document.getElementById('ai-loading').hidden = false;
@@ -1476,20 +1551,14 @@ Respond ONLY with the JSON object. No preamble, no markdown fences, no extra tex
     const response = await fetch('/.netlify/functions/tom-ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        systemPrompt,
-        topic,
-      }),
+      body: JSON.stringify({ systemPrompt, topic }),
     });
 
     const data = await response.json();
     const text = data.content?.map(b => b.text || '').join('') || '';
-
-    // Strip possible markdown fences
     const clean = text.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(clean);
 
-    // Show result
     document.getElementById('ai-verdict-icon').textContent  = parsed.icon   || '🎩';
     document.getElementById('ai-verdict-label').textContent = parsed.verdict || 'TOM ADVISES';
     document.getElementById('ai-verdict-text').textContent  = parsed.advice  || '';
@@ -1508,7 +1577,6 @@ Respond ONLY with the JSON object. No preamble, no markdown fences, no extra tex
 /* ── INIT ───────────────────────────────────────────────── */
 
 (function init() {
-  // Set today as default date in setup form
   document.getElementById('s-start').value = new Date().toISOString().split('T')[0];
 
   if (localStorage.getItem('tom_start')) {
