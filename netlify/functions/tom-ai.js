@@ -1,33 +1,29 @@
-/**
- * TOM — Gentleman's Assistant
- * Netlify serverless function: proxies requests to the Anthropic API.
- * The API key lives here in an environment variable — never in the browser.
- */
 
-exports.handler = async (event) => {
 
-  // Only allow POST
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+export default async (req) => {
+
+  if (req.method !== 'POST') {
+    return new Response('Method Not Allowed', { status: 405 });
   }
 
-  // Parse the request body sent from the PWA
   let systemPrompt, topic;
   try {
-    ({ systemPrompt, topic } = JSON.parse(event.body));
+    ({ systemPrompt, topic } = await req.json());
     if (!systemPrompt || !topic) throw new Error('Missing fields');
   } catch {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Bad request' }) };
+    return new Response(JSON.stringify({ error: 'Bad request' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
-  // Call the Anthropic API — key is read from Netlify environment variable
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = Netlify.env.get('ANTHROPIC_API_KEY');
   if (!apiKey) {
     console.error('ANTHROPIC_API_KEY environment variable is not set');
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'API key not configured' }),
-    };
+    return new Response(JSON.stringify({ error: 'API key not configured' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   try {
@@ -48,23 +44,24 @@ exports.handler = async (event) => {
 
     const data = await anthropicRes.json();
 
-    // Log non-200 responses so they appear in Netlify function logs
     if (!anthropicRes.ok) {
       console.error('Anthropic API error:', anthropicRes.status, JSON.stringify(data));
     }
 
-    return {
-      statusCode: anthropicRes.status,
+    return new Response(JSON.stringify(data), {
+      status: anthropicRes.status,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    };
+    });
 
   } catch (err) {
     console.error('Function fetch error:', err.message);
-    return {
-      statusCode: 502,
-      body: JSON.stringify({ error: 'Upstream request failed', detail: err.message }),
-    };
+    return new Response(JSON.stringify({ error: 'Upstream request failed', detail: err.message }), {
+      status: 502,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 };
 
+export const config = {
+  path: '/.netlify/functions/tom-ai',
+};
