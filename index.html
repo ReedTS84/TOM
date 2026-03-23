@@ -1162,6 +1162,33 @@
     <div id="ai-error" class="ai-error" hidden></div>
   </div>
 
+  <!-- Relationship Field Notes -->
+  <div class="card notes-card">
+    <div class="card-tag">
+      <div class="card-tag-dot" style="background:#8B6BB1"></div>
+      Relationship Field Notes
+    </div>
+
+    <p class="notes-intro">Record your observations and patterns over time. TOM will help you spot recurring themes.</p>
+
+    <div class="notes-stars">
+      <button class="star-btn" onclick="setStarRating(1)" data-rating="1">⭐</button>
+      <button class="star-btn" onclick="setStarRating(2)" data-rating="2">⭐</button>
+      <button class="star-btn" onclick="setStarRating(3)" data-rating="3">⭐</button>
+      <button class="star-btn" onclick="setStarRating(4)" data-rating="4">⭐</button>
+      <button class="star-btn" onclick="setStarRating(5)" data-rating="5">⭐</button>
+    </div>
+
+    <textarea class="notes-textarea" id="notes-textarea" placeholder="How's it going? Any patterns you've noticed?"></textarea>
+
+    <div class="notes-row">
+      <span class="notes-meta" id="notes-timestamp">—</span>
+      <button class="notes-save-btn" onclick="saveNotes()">Save Notes</button>
+    </div>
+
+    <div class="notes-pattern" id="notes-pattern" hidden></div>
+  </div>
+
   <!-- Buy TOM a Cuppa -->
   <div class="card tea-card">
     <div class="card-tag">
@@ -1677,6 +1704,56 @@ Respond ONLY with the JSON object. No preamble, no markdown fences, no extra tex
   }
 }
 
+/* ── RELATIONSHIP FIELD NOTES ───────────────────────────── */
+
+let currentStarRating = 0;
+
+function setStarRating(rating) {
+  currentStarRating = rating;
+  document.querySelectorAll('.star-btn').forEach((btn, idx) => {
+    if (idx < rating) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+}
+
+function saveNotes() {
+  const notes = document.getElementById('notes-textarea').value.trim();
+  const day = getCycleDay(localStorage.getItem('tom_start'), parseInt(localStorage.getItem('tom_cycle')) || 28);
+
+  if (!notes) return;
+
+  const noteEntry = {
+    date: new Date().toISOString(),
+    cycleDay: day,
+    rating: currentStarRating,
+    text: notes
+  };
+
+  let allNotes = JSON.parse(localStorage.getItem('tom_notes') || '[]');
+  allNotes.push(noteEntry);
+  localStorage.setItem('tom_notes', JSON.stringify(allNotes));
+
+  document.getElementById('notes-textarea').value = '';
+  currentStarRating = 0;
+  document.querySelectorAll('.star-btn').forEach(btn => btn.classList.remove('active'));
+
+  updateNotesTimestamp();
+}
+
+function updateNotesTimestamp() {
+  const now = new Date();
+  document.getElementById('notes-timestamp').textContent = `Saved at ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+}
+
+function loadNotes() {
+  const allNotes = JSON.parse(localStorage.getItem('tom_notes') || '[]');
+  if (allNotes.length > 0) {
+    const lastNote = allNotes[allNotes.length - 1];
+    setStarRating(lastNote.rating);
+    document.getElementById('notes-textarea').value = lastNote.text;
+  }
+}
+
 /* ── INIT ───────────────────────────────────────────────── */
 
 (function init() {
@@ -1684,6 +1761,7 @@ Respond ONLY with the JSON object. No preamble, no markdown fences, no extra tex
 
   if (localStorage.getItem('tom_start')) {
     showDashboard();
+    loadNotes();
   }
 
   if ('serviceWorker' in navigator) {
