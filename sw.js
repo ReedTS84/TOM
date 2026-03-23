@@ -1,7 +1,7 @@
 /* TOM — Gentleman's Assistant | Service Worker */
 'use strict';
 
-const CACHE  = 'tom-v5.2';
+const CACHE  = 'tom-v5.3';
 const ASSETS = [
   './',
   './index.html',
