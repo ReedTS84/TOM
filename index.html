@@ -670,7 +670,110 @@
       color: #B91C1C;
       font-style: italic;
     }
+    
+/* Relationship Field Notes */
+    .notes-card {
+      background: linear-gradient(140deg, #F3EFFA 0%, #FBF9FE 100%);
+      border: 1px solid rgba(139,107,177,0.22);
+    }
 
+    .notes-card .card-tag { color: #7A5A9E; }
+
+    .notes-intro {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 14px;
+      font-style: italic;
+    }
+
+    .notes-stars {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .star-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid rgba(139,107,177,0.25);
+      background: white;
+      font-size: 19px;
+      color: #B6A5CC;
+      cursor: pointer;
+      transition: transform 0.1s, background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .star-btn.active {
+      color: #7A5A9E;
+      border-color: #8B6BB1;
+      background: #F2EBFA;
+    }
+
+    .star-btn:active { transform: scale(0.96); }
+
+    .notes-textarea {
+      width: 100%;
+      min-height: 80px;
+      resize: vertical;
+      border-radius: 12px;
+      border: 1px solid rgba(139,107,177,0.25);
+      padding: 11px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      outline: none;
+      -webkit-appearance: none;
+      color: var(--text);
+      background: white;
+    }
+
+    .notes-textarea:focus { border-color: #8B6BB1; }
+
+    .notes-row {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .notes-meta {
+      font-size: 11px;
+      color: #8A7A9D;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+    }
+
+    .notes-save-btn {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 10px;
+      background: #8B6BB1;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .notes-save-btn:hover { opacity: 0.9; }
+    .notes-save-btn:active { transform: scale(0.97); }
+
+    .notes-pattern {
+      margin-top: 14px;
+      padding: 12px 13px;
+      border-radius: 10px;
+      background: rgba(139,107,177,0.1);
+      color: #5F487B;
+      font-size: 13px;
+      line-height: 1.55;
+      font-style: italic;
+    }
+    
+    
     /* ── TEA / KO-FI CARD ────────────────────────────────── */
 
     .tea-card {
