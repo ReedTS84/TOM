@@ -368,21 +368,21 @@
 
     .suit-icon { font-size: 15px; }
 
-    /* Advice card */
-    .advice-card {
-      background: linear-gradient(140deg, #F4EDD8 0%, #FAF6EE 100%);
-      border: 1px solid rgba(200,169,78,0.25);
+    /* Snack card */
+    .snack-card {
+      background: linear-gradient(140deg, #FDF3E7 0%, #FEF9F2 100%);
+      border: 1px solid rgba(200,117,74,0.22);
     }
 
-    .advice-card .card-tag { color: #9A7D35; }
+    .snack-card .card-tag { color: #A05A30; }
 
-    .advice-text {
+    .snack-text {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 20px; font-style: italic; color: var(--navy); line-height: 1.5;
+      font-size: 17px; font-style: italic; color: var(--navy); line-height: 1.6;
     }
 
-    .advice-meta {
-      font-size: 11px; letter-spacing: 1px; color: var(--gold);
+    .snack-meta {
+      font-size: 11px; letter-spacing: 1px; color: #C8754A;
       margin-top: 10px; font-weight: 600; text-transform: uppercase;
     }
 
@@ -884,14 +884,14 @@
     </div>
   </div>
 
-  <!-- Daily Advice -->
-  <div class="card advice-card">
+  <!-- Snack Advisory -->
+  <div class="card snack-card">
     <div class="card-tag">
-      <div class="card-tag-dot" style="background:var(--gold)"></div>
-      Daily Gentleman's Advice
+      <div class="card-tag-dot" style="background:#C8754A"></div>
+      Tactical Snack Advisory
     </div>
-    <div class="advice-text" id="dash-advice">—</div>
-    <div class="advice-meta" id="dash-advice-meta">—</div>
+    <div class="snack-text" id="dash-snack">—</div>
+    <div class="snack-meta" id="dash-snack-meta">—</div>
   </div>
 
   <!-- Science Bit -->
@@ -911,13 +911,12 @@
       Topic Suitability Checker
       <span class="ai-badge">AI</span>
     </div>
-    <p class="ai-intro">Ask TOM whether a topic is safe to raise today. He will consult the intelligence and advise accordingly.</p>
-    <div class="ai-input-row">
+    <p class="ai-intro">Ask TOM whether a topic is safe to raise, or put a worry to him. He handles concerns, questions, and tactical dilemmas with equal discretion.</p>    <div class="ai-input-row">
       <input
         type="text"
         id="ai-topic-input"
         class="ai-topic-input"
-        placeholder="e.g. &quot;holiday budget&quot; or &quot;her mother&quot;"
+        placeholder="e.g. &quot;holiday budget&quot; or &quot;she's been quiet all day&quot;"
         maxlength="120"
         onkeydown="if(event.key==='Enter')askTOM()"
       >
@@ -1075,14 +1074,15 @@ const PHASES = {
       "Small comforts, thoughtfully delivered, rarely go amiss.",
     ],
     tipSub: 'Comfort strategy recommended. Low demands, high awareness.',
-    advice: [
-      "Tea would not be unwelcome at this time.",
-      "Your presence, quietly offered, is often sufficient.",
-      "The phrase 'you're overreacting' remains on indefinite sabbatical.",
-      "Now may not be the moment for ambitious suggestions.",
-      "The acquisition of a hot water bottle would be viewed most favourably.",
-      "Silence, handled well, can be remarkably supportive.",
-      "If in doubt, err on the side of kindness and a blanket.",
+    snacks: [
+      "Dark chocolate. Minimum 70%. This is not negotiable, old boy.",
+      "Something warm — soup, porridge, anything that communicates quiet understanding.",
+      "Salted crisps, delivered without comment or fanfare.",
+      "A proper hot chocolate. Not the powdered kind. Make the effort.",
+      "Ginger biscuits. Surprisingly effective. Keep a supply.",
+      "Bread and butter. Simple. Reliable. Underrated.",
+    ],
+    snackMeta: 'Warmth and chocolate. Deploy without commentary.',
     ],
     science: 'Oestrogen and progesterone are at their lowest. The uterine lining is shedding — a process that can bring fatigue, cramping, and a preference for rest. Energy is being directed inward.',
     sciSub: 'Typically lasting 3–7 days. Rest and warmth are not indulgences here, but entirely sensible responses.',
@@ -1105,14 +1105,15 @@ const PHASES = {
       "A touch of effort now can have surprisingly good returns.",
     ],
     tipSub: 'Conditions are improving. Proceed with quiet confidence.',
-    advice: [
-      "The conversational forecast is clearing.",
-      "You may find yourself briefly more charming than usual. No need to investigate why.",
-      "An excellent moment to suggest something she once mentioned in passing.",
-      "Plans formed now have a habit of lasting.",
-      "A little initiative goes a long way — provided it is well-timed.",
-      "Optimism is appropriate. Overconfidence remains unnecessary.",
+    snacks: [
+      "Something fresh and colourful. Berries, perhaps. Match the improving mood.",
+      "Hummus with various things to dip in it. Universally well received.",
+      "A smoothie, if you're feeling ambitious. Presentation earns points.",
+      "Those nice crackers with something decent on top. Make it look intentional.",
+      "Fruit. Any fruit. The optimism of the phase practically demands it.",
+      "A light cheese situation. Nothing too committal.",
     ],
+    snackMeta: 'Fresh and light. The season is improving.',
     science: 'Oestrogen rises steadily as follicles develop. Neurochemicals associated with mood and motivation increase, supporting energy, clarity, and social engagement.',
     sciSub: 'Typically spans the days following menstruation up to ovulation. A naturally more outward-facing phase.',
   },
@@ -1134,14 +1135,15 @@ const PHASES = {
       "If you've been waiting for the right moment, it may have arrived quietly.",
     ],
     tipSub: 'Favourable conditions. Proceed with intention.',
-    advice: [
-      "Nature is, for once, cooperating. Best to meet it halfway.",
-      "You may find yourself unusually well received.",
-      "This is an excellent moment for that conversation you've been rehearsing.",
-      "Charm will take you further than usual — use sparingly.",
-      "Everything may seem, briefly, quite straightforward. This is not a trap.",
-      "Make the most of the ease while it lasts.",
+    snacks: [
+      "Almost anything will land well. Her appetite for life is at its peak.",
+      "A small, thoughtfully assembled cheese board. You're welcome.",
+      "Fresh fruit, arranged with mild effort. The gesture counts.",
+      "Nice crackers, nice topping, nice timing — a hat-trick.",
+      "Something you actually made yourself. Bold, but the conditions favour it.",
+      "Whatever she mentioned wanting last week. Pay attention, old boy.",
     ],
+    snackMeta: 'Peak conditions. Even your snack choices will seem inspired.',
     science: 'A surge in luteinising hormone triggers ovulation. Oestrogen peaks, and a small rise in testosterone can enhance confidence, sociability, and communication.',
     sciSub: 'Usually occurs mid-cycle, though biology occasionally prefers to keep things interesting.',
   },
@@ -1163,15 +1165,15 @@ const PHASES = {
       "A calm presence tends to outperform clever remarks.",
     ],
     tipSub: 'Thoughtful navigation required. Subtlety is your ally.',
-    advice: [
-      "Patience will serve you particularly well at present.",
-      "The phrase 'calm down' is best left securely locked away.",
-      "Now may not be the moment to revisit unresolved topics.",
-      "Your listening skills are doing more work than you realise.",
-      "A steady approach will outperform a dramatic one.",
-      "If uncertain, choose kindness and say slightly less.",
-      "This is not the day for experimental honesty.",
+    snacks: [
+      "Crisps. Salt. Immediately. Do not pause to analyse this.",
+      "Dark chocolate, again. It earns its place in every single phase.",
+      "Carbohydrates of almost any description. Now is not the moment for salad.",
+      "Warm, starchy things. Toast. Bread. Potatoes in any form whatsoever.",
+      "That biscuit tin you've been quietly hoarding. Surrender it gracefully.",
+      "A warm bowl of pasta. Comfort, in carbohydrate form. She will not complain.",
     ],
+    snackMeta: 'Salt, chocolate, carbs. This is not a suggestion.',
     science: 'Progesterone rises after ovulation. If pregnancy does not occur, levels fall toward the end of the cycle, which can influence mood, sensitivity, and energy levels.',
     sciSub: 'Typically the final phase before menstruation. Hormonal shifts here are responsible for common premenstrual symptoms.',
   },
@@ -1420,8 +1422,8 @@ function updateDashboard() {
     if (r.dataset.suit === ph.suit) r.classList.add('lit', suitMap[ph.suit]);
   });
 
-  document.getElementById('dash-advice').textContent      = rotate(ph.advice, seed + 2);
-  document.getElementById('dash-advice-meta').textContent = `Guidance for Day ${day}`;
+  document.getElementById('dash-snack').textContent      = rotate(ph.snacks, seed + 2);
+  document.getElementById('dash-snack-meta').textContent = ph.snackMeta;
 
   document.getElementById('dash-science').textContent     = ph.science;
   document.getElementById('dash-science-sub').textContent = ph.sciSub;
@@ -1581,26 +1583,29 @@ async function askTOM() {
   const btn = document.getElementById('ai-ask-btn');
   btn.disabled = true;
 
-  const systemPrompt = `You are TOM, a polite, mischievous British gentleman's assistant. Your sole purpose is to advise a man on whether a topic is appropriate to raise with his partner today, given her current hormonal phase. You are on the side of the partnership — not the man, not the woman, but the relationship itself.
+  const systemPrompt = `You are TOM, a polite, mischievous British gentleman's assistant. You advise a man on relationship matters with wit, warmth, and practical intelligence — always informed by his partner's current hormonal phase. You are on the side of the partnership: not the man, not the woman, but the relationship itself.
 
 Current context:
 - Cycle day: ${day} of ${cycleLen}
 - Current phase: ${ph.name}
 - Phase character: ${ph.tipSub}
 
-IMPORTANT — CONDUCT RULES:
-If the topic submitted is rude, dismissive of the partner's feelings, crudely worded, or carries any whiff of male chauvinism (e.g. "why is she being so mental", "she's just being hormonal again", "how do I shut her up", "women are impossible"), you must NOT provide a normal verdict. Instead, set verdict to "A GENTLE WORD, OLD BOY" and icon to "🎩", and use the advice field to deliver a firm but witty British dressing-down. Make it sting with elegance — like a disappointed headmaster, not an internet troll. Remind him that TOM is a gentleman's assistant, not a cad's accomplice. Be funny, be pointed, but never cruel.
+You handle three types of query:
+1. TOPIC CHECK — "is it safe to bring up X?" → give a verdict and phase-aware guidance.
+2. WORRY / CONCERN — "she seems distant", "I don't know what to do about...", "I'm worried that..." → offer calm, practical, genuinely useful advice. Still witty, never dismissive.
+3. GENERAL QUESTION — any relationship question → answer it helpfully, with phase awareness woven in naturally.
 
-For all normal, respectful topics, respond with genuine phase-aware guidance.
+Read the query carefully and respond in the appropriate mode. For worries and questions, use verdict "TOM ADVISES" and icon "🎩".
 
-Your response must follow this EXACT JSON format and nothing else:
+CONDUCT RULES:
+If the query is rude, dismissive of the partner's feelings, crudely worded, or carries any whiff of male chauvinism (e.g. "why is she being so mental", "she's just hormonal", "how do I shut her up"), set verdict to "A GENTLE WORD, OLD BOY", icon to "🎩", and deliver a firm but elegantly witty reprimand — like a disappointed headmaster, not an internet troll. Reference the specific wording they used.
+
+Respond ONLY with this exact JSON — no preamble, no markdown fences:
 {
-  "verdict": "one of: SAFE PASSAGE | PROCEED CAREFULLY | CHOOSE YOUR MOMENT | STAND DOWN | A GENTLE WORD, OLD BOY",
+  "verdict": "one of: SAFE PASSAGE | PROCEED CAREFULLY | CHOOSE YOUR MOMENT | STAND DOWN | TOM ADVISES | A GENTLE WORD, OLD BOY",
   "icon": "one of: ✅ | 🟡 | ⚠️ | 🚫 | 🎩",
-  "advice": "Two to four sentences of dry, witty British advice. For normal topics: phase-aware, helpful, mischievous. For rude/chauvinistic topics: a firm, elegant, genuinely funny reprimand. Always reference the specific wording they used. Never be crude or disrespectful toward women."
-}
-
-Respond ONLY with the JSON object. No preamble, no markdown fences, no extra text.`;
+  "advice": "Two to four sentences. Short, dry, and British. For topic checks: phase-aware verdict. For worries: calm and practical with a touch of wit. For questions: genuinely helpful. Always specific to what they asked."
+}`;
 
   try {
     const response = await fetch('/tom-ai', {
