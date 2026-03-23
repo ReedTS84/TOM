@@ -39,7 +39,6 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -53,7 +52,7 @@
 
     [hidden] { display: none !important; }
 
-    /* ── SETUP SCREEN ────────────────────────────────────── */
+    /* ── SETUP SCREEN ──────────────────────────────────── */
 
     #setup-screen {
       min-height: 100vh;
@@ -68,87 +67,56 @@
         radial-gradient(ellipse at 80% 90%, rgba(139,107,177,0.10) 0%, transparent 50%);
     }
 
-    .setup-crown {
-      font-size: 32px;
-      margin-bottom: 12px;
-      opacity: 0.8;
-    }
+    .setup-crown { font-size: 32px; margin-bottom: 12px; opacity: 0.8; }
 
     .setup-logo {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 72px;
-      font-weight: 700;
-      letter-spacing: -3px;
-      color: var(--gold);
-      line-height: 1;
-      margin-bottom: 6px;
+      font-size: 72px; font-weight: 700; letter-spacing: -3px;
+      color: var(--gold); line-height: 1; margin-bottom: 6px;
     }
 
     .setup-tagline {
-      font-size: 11px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      margin-bottom: 40px;
-      font-weight: 500;
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); margin-bottom: 40px; font-weight: 500;
     }
 
     .setup-card {
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 24px;
-      padding: 32px 28px;
-      width: 100%;
-      max-width: 400px;
-      backdrop-filter: blur(10px);
+      border-radius: 24px; padding: 32px 28px;
+      width: 100%; max-width: 400px; backdrop-filter: blur(10px);
     }
 
     .setup-card h2 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 22px;
-      color: white;
-      margin-bottom: 8px;
-      font-style: italic;
+      font-size: 22px; color: white; margin-bottom: 8px; font-style: italic;
     }
 
     .setup-card > p {
-      font-size: 14px;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 28px;
-      line-height: 1.6;
+      font-size: 14px; color: rgba(255,255,255,0.45);
+      margin-bottom: 28px; line-height: 1.6;
     }
 
-    .field-group {
-      margin-bottom: 18px;
-    }
+    .field-group { margin-bottom: 18px; }
 
     .field-group label {
-      display: block;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 8px;
-      font-weight: 600;
+      display: block; font-size: 11px; letter-spacing: 2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.45);
+      margin-bottom: 8px; font-weight: 600;
     }
 
     .field-group input {
-      width: 100%;
-      padding: 14px 16px;
+      width: 100%; padding: 14px 16px;
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 12px;
-      color: white;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      outline: none;
-      transition: border-color 0.2s, background 0.2s;
+      border-radius: 12px; color: white;
+      font-family: 'DM Sans', sans-serif; font-size: 16px;
+      outline: none; transition: border-color 0.2s, background 0.2s;
       -webkit-appearance: none;
     }
 
     .field-group input:focus {
-      border-color: var(--gold);
-      background: rgba(255,255,255,0.12);
+      border-color: var(--gold); background: rgba(255,255,255,0.12);
     }
 
     .field-group input[type="date"]::-webkit-calendar-picker-indicator {
@@ -156,310 +124,234 @@
     }
 
     .field-hint {
-      font-size: 12px;
-      color: rgba(255,255,255,0.28);
-      margin-top: 5px;
-      font-style: italic;
+      font-size: 12px; color: rgba(255,255,255,0.28);
+      margin-top: 5px; font-style: italic;
     }
 
     .btn-primary {
-      width: 100%;
-      padding: 16px;
-      background: var(--gold);
-      border: none;
-      border-radius: 12px;
-      color: var(--navy);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 4px;
-      transition: opacity 0.2s, transform 0.1s;
-      letter-spacing: 0.3px;
+      width: 100%; padding: 16px; background: var(--gold);
+      border: none; border-radius: 12px; color: var(--navy);
+      font-family: 'DM Sans', sans-serif; font-size: 16px;
+      font-weight: 600; cursor: pointer; margin-top: 4px;
+      transition: opacity 0.2s, transform 0.1s; letter-spacing: 0.3px;
     }
 
     .btn-primary:hover { opacity: 0.92; }
     .btn-primary:active { transform: scale(0.98); opacity: 0.88; }
 
     .setup-footnote {
-      font-size: 12px;
-      color: rgba(255,255,255,0.25);
-      text-align: center;
-      margin-top: 28px;
-      max-width: 320px;
-      line-height: 1.7;
-      font-style: italic;
+      font-size: 12px; color: rgba(255,255,255,0.25);
+      text-align: center; margin-top: 28px;
+      max-width: 320px; line-height: 1.7; font-style: italic;
     }
 
-    /* ── DASHBOARD ───────────────────────────────────────── */
+    /* ── DASHBOARD ─────────────────────────────────────── */
 
-    #dashboard {
-      max-width: 480px;
-      margin: 0 auto;
-      padding-bottom: 48px;
-    }
+    #dashboard { max-width: 480px; margin: 0 auto; padding-bottom: 48px; }
 
     /* Header */
     .app-header {
       background: var(--navy);
       background-image: radial-gradient(ellipse at 30% 0%, rgba(200,169,78,0.10) 0%, transparent 60%);
-      padding: 16px 22px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+      padding: 16px 22px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky;
+      top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
     }
 
-    .app-logo-wrap {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-    }
+    .app-logo-wrap { display: flex; align-items: baseline; gap: 10px; }
 
     .app-logo-text {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 30px;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: -1px;
-      line-height: 1;
+      font-size: 30px; font-weight: 700; color: var(--gold);
+      letter-spacing: -1px; line-height: 1;
     }
 
     .app-logo-sub {
-      font-size: 10px;
-      letter-spacing: 2.5px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.35);
-      text-transform: uppercase;
+      font-size: 10px; letter-spacing: 2.5px; font-weight: 500;
+      color: rgba(255,255,255,0.35); text-transform: uppercase;
     }
 
     .btn-settings {
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 10px;
-      color: rgba(255,255,255,0.5);
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 17px;
+      border-radius: 10px; color: rgba(255,255,255,0.5);
+      width: 40px; height: 40px; display: flex;
+      align-items: center; justify-content: center;
+      cursor: pointer; font-size: 17px;
       transition: background 0.2s, color 0.2s;
     }
 
-    .btn-settings:hover {
-      background: rgba(255,255,255,0.14);
-      color: rgba(255,255,255,0.8);
-    }
+    .btn-settings:hover { background: rgba(255,255,255,0.14); color: rgba(255,255,255,0.8); }
 
     /* Install banner */
     #install-banner {
       margin: 14px 16px 0;
       background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      border-radius: 14px;
-      padding: 12px 14px 12px 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      border-radius: 14px; padding: 12px 14px 12px 18px;
+      display: flex; align-items: center; gap: 10px;
     }
 
     #install-banner p {
-      flex: 1;
-      font-size: 13px;
-      color: var(--navy);
-      font-weight: 500;
-      line-height: 1.3;
+      flex: 1; font-size: 13px; color: var(--navy);
+      font-weight: 500; line-height: 1.3;
     }
 
     .btn-install {
-      background: var(--navy);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 14px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
+      background: var(--navy); color: white; border: none;
+      border-radius: 8px; padding: 8px 14px; font-size: 13px;
+      font-weight: 600; cursor: pointer; white-space: nowrap;
       font-family: 'DM Sans', sans-serif;
     }
 
     .btn-close-banner {
-      background: transparent;
-      border: none;
-      color: rgba(27,42,74,0.4);
-      font-size: 20px;
-      cursor: pointer;
-      line-height: 1;
-      padding: 2px;
+      background: transparent; border: none;
+      color: rgba(27,42,74,0.4); font-size: 20px;
+      cursor: pointer; line-height: 1; padding: 2px;
     }
 
     /* Phase Hero */
-    .phase-hero {
-      padding: 24px 22px 6px;
-    }
+    .phase-hero { padding: 24px 22px 6px; }
 
     .phase-label-small {
-      font-size: 10px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-weight: 600;
-      margin-bottom: 5px;
+      font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--muted); font-weight: 600; margin-bottom: 5px;
     }
 
     .phase-title {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 30px;
-      font-weight: 700;
-      color: var(--navy);
-      line-height: 1.1;
+      font-size: 30px; font-weight: 700; color: var(--navy); line-height: 1.1;
     }
 
-    .phase-day-text {
-      font-size: 14px;
-      color: var(--muted);
-      margin-top: 5px;
-      font-weight: 400;
-    }
+    .phase-day-text { font-size: 14px; color: var(--muted); margin-top: 5px; font-weight: 400; }
 
     .phase-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-top: 12px;
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 14px; border-radius: 50px;
+      font-size: 13px; font-weight: 600; margin-top: 12px;
     }
 
-    .phase-pill-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-    }
+    .phase-pill-dot { width: 7px; height: 7px; border-radius: 50%; }
 
     /* Wheel */
-    .wheel-wrap {
-      display: flex;
-      justify-content: center;
-      padding: 20px 0 10px;
-    }
+    .wheel-wrap { display: flex; justify-content: center; padding: 20px 0 10px; }
 
-    #cycle-wheel {
-      filter: drop-shadow(0 6px 24px rgba(27,42,74,0.14));
-    }
+    #cycle-wheel { filter: drop-shadow(0 6px 24px rgba(27,42,74,0.14)); }
 
     /* Phase Key */
     .phase-key {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      padding: 0 16px 12px;
-      flex-wrap: wrap;
+      display: flex; justify-content: center;
+      gap: 18px; padding: 0 16px 12px; flex-wrap: wrap;
     }
-    .phase-key-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 500;
-    }
-    .phase-key-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+
+    .phase-key-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); font-weight: 500; }
+    .phase-key-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 
     /* Countdown */
     .countdown-bar {
       margin: 4px 16px 4px;
       background: var(--navy);
       background-image: linear-gradient(135deg, var(--navy) 0%, #243060 100%);
-      border-radius: 50px;
-      padding: 11px 22px;
-      text-align: center;
-      font-size: 13px;
-      color: rgba(255,255,255,0.65);
-      font-weight: 400;
+      border-radius: 50px; padding: 11px 22px;
+      text-align: center; font-size: 13px;
+      color: rgba(255,255,255,0.65); font-weight: 400;
     }
 
-    .countdown-bar strong {
-      color: var(--gold);
-      font-size: 18px;
-      font-weight: 700;
-      margin: 0 2px;
+    .countdown-bar strong { color: var(--gold); font-size: 18px; font-weight: 700; margin: 0 2px; }
+
+    /* ── 7-DAY STRIP ─────────────────────────────────── */
+
+    .week-strip-card {
+      margin: 10px 16px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 18px 16px 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .week-strip {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px 2px 6px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      margin-top: 10px;
+    }
+
+    .week-strip::-webkit-scrollbar { display: none; }
+
+    .week-day {
+      flex: 0 0 54px;
+      border-radius: 14px;
+      padding: 10px 6px 8px;
+      text-align: center;
+      background: var(--cream);
+      transition: background 0.2s;
+    }
+
+    .week-day.today { background: var(--navy); }
+
+    .week-day-name {
+      font-size: 9px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 4px;
+    }
+
+    .week-day.today .week-day-name { color: rgba(255,255,255,0.45); }
+
+    .week-day-num {
+      font-size: 17px; font-weight: 700; color: var(--navy);
+      font-family: 'Playfair Display', serif; line-height: 1; margin-bottom: 5px;
+    }
+
+    .week-day.today .week-day-num { color: white; }
+
+    .week-day-emoji { font-size: 14px; line-height: 1; margin-bottom: 3px; }
+
+    .week-day-dot {
+      width: 5px; height: 5px; border-radius: 50%; margin: 0 auto;
+    }
+
+    .week-phase-change {
+      margin-top: 8px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      background: rgba(27,42,74,0.05);
+      font-size: 11px;
+      color: var(--muted);
+      font-style: italic;
+      text-align: center;
+      line-height: 1.5;
     }
 
     /* Cards */
     .card {
-      margin: 10px 16px;
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 20px 22px;
-      box-shadow: var(--shadow);
+      margin: 10px 16px; background: var(--card-bg);
+      border-radius: 20px; padding: 20px 22px; box-shadow: var(--shadow);
     }
 
     .card-tag {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 7px;
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      font-weight: 600; color: var(--muted); margin-bottom: 12px;
     }
 
-    .card-tag-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+    .card-tag-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 
     .card-quote {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 17px;
-      line-height: 1.6;
-      color: var(--navy);
-      font-style: italic;
+      font-size: 17px; line-height: 1.6; color: var(--navy); font-style: italic;
     }
 
-    .card-note {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 8px;
-      line-height: 1.5;
-    }
+    .card-note { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
 
     /* Suitability */
-    .suit-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      margin-top: 4px;
-    }
+    .suit-grid { display: flex; flex-direction: column; gap: 7px; margin-top: 4px; }
 
     .suit-row {
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 500;
-      background: #F3F3F3;
-      color: #BBBBBB;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.25s;
+      padding: 10px 14px; border-radius: 10px;
+      font-size: 13px; font-weight: 500;
+      background: #F3F3F3; color: #BBBBBB;
+      display: flex; align-items: center; gap: 10px; transition: all 0.25s;
     }
 
     .suit-row.lit { color: white; font-weight: 600; }
@@ -480,41 +372,25 @@
 
     .advice-text {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 20px;
-      font-style: italic;
-      color: var(--navy);
-      line-height: 1.5;
+      font-size: 20px; font-style: italic; color: var(--navy); line-height: 1.5;
     }
 
     .advice-meta {
-      font-size: 11px;
-      letter-spacing: 1px;
-      color: var(--gold);
-      margin-top: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
+      font-size: 11px; letter-spacing: 1px; color: var(--gold);
+      margin-top: 10px; font-weight: 600; text-transform: uppercase;
     }
 
     /* Science card */
-    .science-card {
-      background: linear-gradient(140deg, var(--navy) 0%, #1E3060 100%);
-    }
+    .science-card { background: linear-gradient(140deg, var(--navy) 0%, #1E3060 100%); }
 
     .science-card .card-tag { color: rgba(255,255,255,0.38); }
     .science-card .card-tag-dot { background: var(--gold) !important; }
 
-    .science-body {
-      font-size: 14px;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.85);
-    }
+    .science-body { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.85); }
 
     .science-sub {
-      font-size: 12px;
-      color: rgba(255,255,255,0.38);
-      margin-top: 10px;
-      line-height: 1.5;
-      font-style: italic;
+      font-size: 12px; color: rgba(255,255,255,0.38);
+      margin-top: 10px; line-height: 1.5; font-style: italic;
     }
 
     /* AI Checker Card */
@@ -526,62 +402,34 @@
     .ai-checker-card .card-tag { color: #5B6EBD; }
 
     .ai-badge {
-      margin-left: auto;
-      background: #5B6EBD;
-      color: white;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      padding: 2px 7px;
-      border-radius: 50px;
-      text-transform: uppercase;
+      margin-left: auto; background: #5B6EBD; color: white;
+      font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+      padding: 2px 7px; border-radius: 50px; text-transform: uppercase;
     }
 
     .ai-intro {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 14px;
-      font-style: italic;
+      font-size: 13px; color: var(--muted);
+      line-height: 1.6; margin-bottom: 14px; font-style: italic;
     }
 
-    .ai-input-row {
-      display: flex;
-      gap: 8px;
-    }
+    .ai-input-row { display: flex; gap: 8px; }
 
     .ai-topic-input {
-      flex: 1;
-      padding: 12px 14px;
-      background: white;
-      border: 1px solid rgba(91,110,189,0.25);
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s;
+      flex: 1; padding: 12px 14px; background: white;
+      border: 1px solid rgba(91,110,189,0.25); border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px;
+      color: var(--text); outline: none; transition: border-color 0.2s;
       -webkit-appearance: none;
     }
 
-    .ai-topic-input:focus {
-      border-color: #5B6EBD;
-    }
-
+    .ai-topic-input:focus { border-color: #5B6EBD; }
     .ai-topic-input::placeholder { color: #BBBBBB; }
 
     .ai-ask-btn {
-      padding: 12px 18px;
-      background: #5B6EBD;
-      border: none;
-      border-radius: 10px;
-      color: white;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: opacity 0.2s, transform 0.1s;
+      padding: 12px 18px; background: #5B6EBD; border: none;
+      border-radius: 10px; color: white; font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      white-space: nowrap; transition: opacity 0.2s, transform 0.1s;
     }
 
     .ai-ask-btn:hover   { opacity: 0.9; }
@@ -589,67 +437,36 @@
     .ai-ask-btn:disabled { opacity: 0.5; cursor: default; }
 
     .ai-result {
-      margin-top: 16px;
-      padding: 16px;
-      background: white;
-      border-radius: 12px;
-      border: 1px solid rgba(91,110,189,0.12);
+      margin-top: 16px; padding: 16px; background: white;
+      border-radius: 12px; border: 1px solid rgba(91,110,189,0.12);
     }
 
-    .ai-verdict-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
+    .ai-verdict-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 
-    .ai-verdict-icon {
-      font-size: 22px;
-      line-height: 1;
-    }
+    .ai-verdict-icon { font-size: 22px; line-height: 1; }
 
     .ai-verdict-label {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--navy);
+      font-size: 13px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--navy);
     }
 
     .ai-verdict-text {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 15px;
-      line-height: 1.7;
-      color: var(--navy);
-      font-style: italic;
+      font-size: 15px; line-height: 1.7; color: var(--navy); font-style: italic;
     }
 
-    /* Loading dots */
     .ai-loading {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 14px;
-      padding: 12px 0 4px;
+      display: flex; align-items: center; gap: 10px;
+      margin-top: 14px; padding: 12px 0 4px;
     }
 
-    .ai-loading-text {
-      font-size: 13px;
-      color: var(--muted);
-      font-style: italic;
-    }
+    .ai-loading-text { font-size: 13px; color: var(--muted); font-style: italic; }
 
-    .ai-dots {
-      display: flex;
-      gap: 5px;
-    }
+    .ai-dots { display: flex; gap: 5px; }
 
     .ai-dots span {
-      width: 6px;
-      height: 6px;
-      background: #5B6EBD;
-      border-radius: 50%;
-      animation: ai-pulse 1.2s ease-in-out infinite;
+      width: 6px; height: 6px; background: #5B6EBD;
+      border-radius: 50%; animation: ai-pulse 1.2s ease-in-out infinite;
     }
 
     .ai-dots span:nth-child(2) { animation-delay: 0.2s; }
@@ -657,21 +474,17 @@
 
     @keyframes ai-pulse {
       0%, 80%, 100% { opacity: 0.2; transform: scale(0.9); }
-      40% { opacity: 1;   transform: scale(1.1); }
+      40% { opacity: 1; transform: scale(1.1); }
     }
 
     .ai-error {
-      margin-top: 14px;
-      padding: 12px 14px;
-      background: #FEF2F2;
-      border: 1px solid #FECACA;
-      border-radius: 10px;
-      font-size: 13px;
-      color: #B91C1C;
-      font-style: italic;
+      margin-top: 14px; padding: 12px 14px; background: #FEF2F2;
+      border: 1px solid #FECACA; border-radius: 10px;
+      font-size: 13px; color: #B91C1C; font-style: italic;
     }
-    
-/* Relationship Field Notes */
+
+    /* ── RELATIONSHIP FIELD NOTES ──────────────────────── */
+
     .notes-card {
       background: linear-gradient(140deg, #F3EFFA 0%, #FBF9FE 100%);
       border: 1px solid rgba(139,107,177,0.22);
@@ -680,274 +493,229 @@
     .notes-card .card-tag { color: #7A5A9E; }
 
     .notes-intro {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 14px;
-      font-style: italic;
+      font-size: 13px; color: var(--muted);
+      line-height: 1.6; margin-bottom: 14px; font-style: italic;
     }
 
-    .notes-stars {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
+    .notes-stars { display: flex; gap: 8px; margin-bottom: 12px; }
 
     .star-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
+      width: 36px; height: 36px; border-radius: 10px;
       border: 1px solid rgba(139,107,177,0.25);
-      background: white;
-      font-size: 19px;
-      color: #B6A5CC;
-      cursor: pointer;
-      transition: transform 0.1s, background 0.2s, color 0.2s, border-color 0.2s;
+      background: white; font-size: 19px; color: #B6A5CC;
+      cursor: pointer; transition: transform 0.1s, background 0.2s, color 0.2s, border-color 0.2s;
     }
 
-    .star-btn.active {
-      color: #7A5A9E;
-      border-color: #8B6BB1;
-      background: #F2EBFA;
-    }
-
+    .star-btn.active { color: #7A5A9E; border-color: #8B6BB1; background: #F2EBFA; }
     .star-btn:active { transform: scale(0.96); }
 
     .notes-textarea {
-      width: 100%;
-      min-height: 80px;
-      resize: vertical;
-      border-radius: 12px;
-      border: 1px solid rgba(139,107,177,0.25);
-      padding: 11px 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      line-height: 1.5;
-      outline: none;
-      -webkit-appearance: none;
-      color: var(--text);
-      background: white;
+      width: 100%; min-height: 80px; resize: vertical;
+      border-radius: 12px; border: 1px solid rgba(139,107,177,0.25);
+      padding: 11px 12px; font-family: 'DM Sans', sans-serif;
+      font-size: 14px; line-height: 1.5; outline: none;
+      -webkit-appearance: none; color: var(--text); background: white;
     }
 
     .notes-textarea:focus { border-color: #8B6BB1; }
 
     .notes-row {
-      margin-top: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
+      margin-top: 10px; display: flex;
+      justify-content: space-between; align-items: center; gap: 10px;
     }
 
-    .notes-meta {
-      font-size: 11px;
-      color: #8A7A9D;
-      font-weight: 600;
-      letter-spacing: 0.4px;
-    }
+    .notes-meta { font-size: 11px; color: #8A7A9D; font-weight: 600; letter-spacing: 0.4px; }
 
     .notes-save-btn {
-      padding: 10px 14px;
-      border: none;
-      border-radius: 10px;
-      background: #8B6BB1;
-      color: white;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
+      padding: 10px 14px; border: none; border-radius: 10px;
+      background: #8B6BB1; color: white; font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 600; cursor: pointer;
       transition: opacity 0.2s, transform 0.1s;
     }
 
     .notes-save-btn:hover { opacity: 0.9; }
     .notes-save-btn:active { transform: scale(0.97); }
 
-    .notes-pattern {
-      margin-top: 14px;
-      padding: 12px 13px;
-      border-radius: 10px;
-      background: rgba(139,107,177,0.1);
-      color: #5F487B;
-      font-size: 13px;
-      line-height: 1.55;
-      font-style: italic;
+    /* Notes history */
+    .notes-divider {
+      height: 1px; background: rgba(139,107,177,0.15);
+      margin: 16px 0 12px;
     }
-    
-    
-    /* ── TEA / KO-FI CARD ────────────────────────────────── */
+
+    .notes-history-label {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: #8A7A9D; font-weight: 600; margin-bottom: 10px;
+    }
+
+    .notes-history { display: flex; flex-direction: column; gap: 7px; }
+
+    .notes-entry {
+      background: rgba(139,107,177,0.08);
+      border-radius: 10px; padding: 9px 12px;
+    }
+
+    .notes-entry-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 3px;
+    }
+
+    .notes-entry-date { font-size: 11px; color: #7A5A9E; font-weight: 600; }
+    .notes-entry-stars { font-size: 11px; line-height: 1; }
+
+    .notes-entry-text {
+      font-size: 13px; color: var(--text); line-height: 1.45;
+    }
+
+    .notes-empty {
+      font-size: 13px; color: #B6A5CC; font-style: italic;
+      text-align: center; padding: 8px 0;
+    }
+
+    /* Pattern analysis */
+    .notes-pattern {
+      margin-top: 14px; padding: 12px 13px;
+      border-radius: 10px; background: rgba(139,107,177,0.10);
+      color: #5F487B; font-size: 13px; line-height: 1.55; font-style: italic;
+    }
+
+    /* ── TEA / KO-FI CARD ────────────────────────────── */
 
     .tea-card {
       background: linear-gradient(140deg, #1B2A4A 0%, #243660 100%);
       border: 1px solid rgba(200,169,78,0.25);
     }
 
-    .tea-card .card-tag {
-      color: rgba(255,255,255,0.38);
-    }
+    .tea-card .card-tag { color: rgba(255,255,255,0.38); }
 
-    .tea-body {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      margin-bottom: 18px;
-    }
+    .tea-body { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
 
-    .tea-glass {
-      font-size: 36px;
-      line-height: 1;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
+    .tea-glass { font-size: 36px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
 
     .tea-headline {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--gold);
-      margin-bottom: 6px;
+      font-size: 20px; font-weight: 700; color: var(--gold); margin-bottom: 6px;
     }
 
-    .tea-sub {
-      font-size: 13px;
-      color: rgba(255,255,255,0.65);
-      line-height: 1.6;
-    }
+    .tea-sub { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6; }
 
     .tea-btn {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      background: var(--gold);
-      border-radius: 12px;
-      color: var(--navy);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      text-align: center;
-      text-decoration: none;
-      letter-spacing: 0.3px;
-      transition: opacity 0.2s, transform 0.1s;
+      display: block; width: 100%; padding: 14px; background: var(--gold);
+      border-radius: 12px; color: var(--navy); font-family: 'DM Sans', sans-serif;
+      font-size: 15px; font-weight: 700; text-align: center; text-decoration: none;
+      letter-spacing: 0.3px; transition: opacity 0.2s, transform 0.1s;
     }
 
     .tea-btn:hover  { opacity: 0.90; }
     .tea-btn:active { transform: scale(0.98); opacity: 0.85; }
 
     .tea-footnote {
-      font-size: 11px;
-      color: rgba(255,255,255,0.25);
-      text-align: center;
-      margin-top: 14px;
-      font-style: italic;
-      line-height: 1.6;
+      font-size: 11px; color: rgba(255,255,255,0.25);
+      text-align: center; margin-top: 14px; font-style: italic; line-height: 1.6;
     }
 
     /* Disclaimer */
     .app-disclaimer {
-      margin: 20px 22px 4px;
-      padding: 18px 20px;
-      background: rgba(255,255,255,0.5);
-      border: 1px solid rgba(0,0,0,0.06);
-      border-radius: 16px;
-      text-align: center;
+      margin: 20px 22px 4px; padding: 18px 20px;
+      background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 16px; text-align: center;
     }
 
     .disclaimer-label {
-      font-size: 9px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: #C0C0C0;
-      font-weight: 700;
-      margin-bottom: 8px;
+      font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #C0C0C0; font-weight: 700; margin-bottom: 8px;
     }
 
-    .disclaimer-text {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.7;
-      font-style: italic;
-    }
+    .disclaimer-text { font-size: 12px; color: var(--muted); line-height: 1.7; font-style: italic; }
 
-    /* ── SETTINGS MODAL ──────────────────────────────────── */
+    /* ── SETTINGS MODAL ────────────────────────────────── */
 
     #settings-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      z-index: 200;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      backdrop-filter: blur(4px);
+      position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+      z-index: 200; display: flex; align-items: flex-end;
+      justify-content: center; backdrop-filter: blur(4px);
     }
 
     .settings-sheet {
-      background: white;
-      border-radius: 24px 24px 0 0;
-      padding: 28px 24px 36px;
-      width: 100%;
-      max-width: 480px;
+      background: white; border-radius: 24px 24px 0 0;
+      padding: 28px 24px 36px; width: 100%; max-width: 480px;
+      max-height: 90vh; overflow-y: auto;
     }
 
     .settings-handle {
-      width: 36px;
-      height: 4px;
-      background: #E0E0E0;
-      border-radius: 2px;
-      margin: 0 auto 22px;
+      width: 36px; height: 4px; background: #E0E0E0;
+      border-radius: 2px; margin: 0 auto 22px;
     }
 
     .settings-sheet h3 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 22px;
-      color: var(--navy);
-      margin-bottom: 22px;
+      font-size: 22px; color: var(--navy); margin-bottom: 22px;
     }
 
-    .settings-sheet .field-group label {
-      color: var(--muted);
+    .settings-section-label {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted); font-weight: 700; margin: 22px 0 14px;
+      padding-top: 18px; border-top: 1px solid #F0F0F0;
     }
+
+    .settings-sheet .field-group label { color: var(--muted); }
 
     .settings-sheet .field-group input {
-      background: var(--cream);
-      border: 1px solid #E5E5E5;
-      color: var(--text);
+      background: var(--cream); border: 1px solid #E5E5E5; color: var(--text);
     }
 
     .settings-sheet .field-group input:focus {
-      border-color: var(--navy);
-      background: #FAFAFA;
+      border-color: var(--navy); background: #FAFAFA;
     }
 
-    .settings-btns {
-      display: flex;
-      gap: 12px;
+    .settings-btns { display: flex; gap: 12px; margin-top: 10px; }
+
+    .btn-cancel {
+      flex: 1; padding: 14px; background: var(--cream);
+      border: 1px solid #E0E0E0; border-radius: 12px;
+      color: var(--text); font-family: 'DM Sans', sans-serif;
+      font-size: 15px; font-weight: 500; cursor: pointer;
+    }
+
+    .settings-sheet .btn-primary { flex: 2; background: var(--navy); color: white; margin-top: 0; }
+
+    /* Period log button */
+    .btn-log-period {
+      width: 100%; padding: 13px;
+      background: rgba(201,97,109,0.08);
+      border: 1px solid rgba(201,97,109,0.3);
+      border-radius: 12px; color: #C9616D;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s;
+    }
+
+    .btn-log-period:hover { background: rgba(201,97,109,0.14); }
+
+    .period-log-hint {
+      font-size: 11px; color: var(--muted);
+      text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5;
+    }
+
+    .period-log-history {
       margin-top: 10px;
     }
 
-    .btn-cancel {
-      flex: 1;
-      padding: 14px;
-      background: var(--cream);
-      border: 1px solid #E0E0E0;
-      border-radius: 12px;
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 500;
-      cursor: pointer;
+    .period-log-entry {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 7px 0; border-bottom: 1px solid #F5F5F5;
+      font-size: 13px;
     }
 
-    .settings-sheet .btn-primary {
-      flex: 2;
-      background: var(--navy);
-      color: white;
-      margin-top: 0;
-    }
+    .period-log-entry:last-child { border-bottom: none; }
 
-    /* ── RESPONSIVE ──────────────────────────────────────── */
+    .period-log-date { color: var(--text); font-weight: 500; }
+    .period-log-gap  { color: var(--muted); font-size: 12px; }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
     @media (max-width: 380px) {
       .phase-title { font-size: 26px; }
       .setup-logo  { font-size: 60px; }
+      .week-day    { flex: 0 0 48px; }
     }
 
     @media (min-width: 480px) {
@@ -957,9 +725,9 @@
 </head>
 <body>
 
-<!-- ──────────────────────────────────────────────────────────
+<!-- ──────────────────────────────────────────────────────
      SETUP SCREEN
-─────────────────────────────────────────────────────────── -->
+─────────────────────────────────────────────────────── -->
 <div id="setup-screen">
   <div class="setup-crown">👑</div>
   <div class="setup-logo">TOM</div>
@@ -995,9 +763,9 @@
 </div>
 
 
-<!-- ──────────────────────────────────────────────────────────
+<!-- ──────────────────────────────────────────────────────
      DASHBOARD
-─────────────────────────────────────────────────────────── -->
+─────────────────────────────────────────────────────── -->
 <div id="dashboard" hidden>
 
   <!-- Header -->
@@ -1056,6 +824,16 @@
   <!-- Countdown -->
   <div class="countdown-bar">
     Next period estimated in&nbsp;<strong id="dash-countdown">—</strong>&nbsp;days
+  </div>
+
+  <!-- 7-Day Lookahead Strip -->
+  <div class="week-strip-card">
+    <div class="card-tag">
+      <div class="card-tag-dot" style="background:var(--navy)"></div>
+      The Week Ahead
+    </div>
+    <div class="week-strip" id="week-strip"></div>
+    <div id="week-note"></div>
   </div>
 
   <!-- Today's Insight -->
@@ -1136,12 +914,9 @@
         maxlength="120"
         onkeydown="if(event.key==='Enter')askTOM()"
       >
-      <button class="ai-ask-btn" onclick="askTOM()" id="ai-ask-btn">
-        Ask TOM
-      </button>
+      <button class="ai-ask-btn" onclick="askTOM()" id="ai-ask-btn">Ask TOM</button>
     </div>
 
-    <!-- Result area -->
     <div id="ai-result" class="ai-result" hidden>
       <div class="ai-verdict-row">
         <div class="ai-verdict-icon" id="ai-verdict-icon">—</div>
@@ -1150,15 +925,11 @@
       <div class="ai-verdict-text" id="ai-verdict-text">—</div>
     </div>
 
-    <!-- Loading state -->
     <div id="ai-loading" class="ai-loading" hidden>
-      <div class="ai-dots">
-        <span></span><span></span><span></span>
-      </div>
+      <div class="ai-dots"><span></span><span></span><span></span></div>
       <span class="ai-loading-text">TOM is consulting his sources…</span>
     </div>
 
-    <!-- Error state -->
     <div id="ai-error" class="ai-error" hidden></div>
   </div>
 
@@ -1169,9 +940,9 @@
       Relationship Field Notes
     </div>
 
-    <p class="notes-intro">Record your observations and patterns over time. TOM will help you spot recurring themes.</p>
+    <p class="notes-intro">Record how the day went. TOM will track patterns over time and advise accordingly.</p>
 
-    <div class="notes-stars">
+    <div class="notes-stars" id="notes-stars">
       <button class="star-btn" onclick="setStarRating(1)" data-rating="1">⭐</button>
       <button class="star-btn" onclick="setStarRating(2)" data-rating="2">⭐</button>
       <button class="star-btn" onclick="setStarRating(3)" data-rating="3">⭐</button>
@@ -1179,14 +950,23 @@
       <button class="star-btn" onclick="setStarRating(5)" data-rating="5">⭐</button>
     </div>
 
-    <textarea class="notes-textarea" id="notes-textarea" placeholder="How's it going? Any patterns you've noticed?"></textarea>
+    <textarea class="notes-textarea" id="notes-textarea"
+      placeholder="How did today go? Anything to note for next time?"></textarea>
 
     <div class="notes-row">
-      <span class="notes-meta" id="notes-timestamp">—</span>
-      <button class="notes-save-btn" onclick="saveNotes()">Save Notes</button>
+      <span class="notes-meta" id="notes-meta">Rate today &amp; save</span>
+      <button class="notes-save-btn" onclick="saveNotes()">Save Entry</button>
     </div>
 
+    <!-- Pattern analysis — shown when enough data -->
     <div class="notes-pattern" id="notes-pattern" hidden></div>
+
+    <!-- History -->
+    <div id="notes-history-wrap" hidden>
+      <div class="notes-divider"></div>
+      <div class="notes-history-label">Recent Entries</div>
+      <div class="notes-history" id="notes-history"></div>
+    </div>
   </div>
 
   <!-- Buy TOM a Cuppa -->
@@ -1202,12 +982,7 @@
         <div class="tea-sub">If TOM has kept the peace, a small token of appreciation is always graciously received.</div>
       </div>
     </div>
-    <a
-      class="tea-btn"
-      href="https://ko-fi.com/put_the_kettle_on"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <a class="tea-btn" href="https://ko-fi.com/put_the_kettle_on" target="_blank" rel="noopener noreferrer">
       🍵 &nbsp;Put The Kettle On
     </a>
     <div class="tea-footnote">"A gentleman's intelligence network requires fuel. A nice cuppa should do the trick." — TOM</div>
@@ -1224,14 +999,15 @@
 </div>
 
 
-<!-- ──────────────────────────────────────────────────────────
+<!-- ──────────────────────────────────────────────────────
      SETTINGS MODAL
-─────────────────────────────────────────────────────────── -->
+─────────────────────────────────────────────────────── -->
 <div id="settings-modal" hidden>
   <div class="settings-sheet">
     <div class="settings-handle"></div>
     <h3>Adjust Settings</h3>
 
+    <!-- Cycle settings -->
     <div class="field-group">
       <label>Last Period Start Date</label>
       <input type="date" id="m-start">
@@ -1249,24 +1025,34 @@
       <button class="btn-cancel" onclick="closeSettings()">Cancel</button>
       <button class="btn-primary" onclick="saveSettings()">Update</button>
     </div>
+
+    <!-- Period Logging -->
+    <div class="settings-section-label">Period Tracking</div>
+
+    <button class="btn-log-period" onclick="logPeriodStart()">
+      🌹 &nbsp;Period Started Today
+    </button>
+    <p class="period-log-hint">
+      Log each time a period begins. TOM will use your history to refine the cycle length prediction over time.
+    </p>
+
+    <div class="period-log-history" id="period-log-history"></div>
+
   </div>
 </div>
 
 
-<!-- ──────────────────────────────────────────────────────────
+<!-- ──────────────────────────────────────────────────────
      JAVASCRIPT
-─────────────────────────────────────────────────────────── -->
+─────────────────────────────────────────────────────── -->
 <script>
 'use strict';
 
-/* ── PHASE DATA ─────────────────────────────────────────── */
+/* ── PHASE DATA ───────────────────────────────────────── */
 const PHASES = {
   menstrual: {
     name: 'Menstrual Phase',
-    col:  '#C9616D',
-    bg:   '#FAEAEC',
-    emoji:'🌹',
-    suit: 'red',
+    col:  '#C9616D', bg: '#FAEAEC', emoji: '🌹', suit: 'red',
     insights: [
       '"She is navigating the interior. Think lighthouse keeper, not tour guide."',
       '"The body is doing significant work. Your job is to notice this quietly."',
@@ -1293,10 +1079,7 @@ const PHASES = {
   },
   follicular: {
     name: 'Follicular Phase',
-    col:  '#5DAA82',
-    bg:   '#E2F3EB',
-    emoji:'🌱',
-    suit: 'blue',
+    col: '#5DAA82', bg: '#E2F3EB', emoji: '🌱', suit: 'blue',
     insights: [
       '"Spring is arriving. Best to be presentable."',
       '"The conversational forecast is clearing. Cautious optimism is warranted."',
@@ -1323,10 +1106,7 @@ const PHASES = {
   },
   ovulation: {
     name: 'Ovulation Phase',
-    col:  '#E8B84B',
-    bg:   '#FBF3DC',
-    emoji:'✨',
-    suit: 'green',
+    col: '#E8B84B', bg: '#FBF3DC', emoji: '✨', suit: 'green',
     insights: [
       '"You may briefly appear significantly more charming than usual. Nature is conspiring."',
       '"Peak social season. Meteorological conditions: excellent."',
@@ -1353,10 +1133,7 @@ const PHASES = {
   },
   luteal: {
     name: 'Luteal Phase',
-    col:  '#8B6BB1',
-    bg:   '#EDE7F6',
-    emoji:'🌙',
-    suit: 'amber',
+    col: '#8B6BB1', bg: '#EDE7F6', emoji: '🌙', suit: 'amber',
     insights: [
       '"Tread thoughtfully. The emotional barometer is sensitive today."',
       '"She may be feeling more than usual. Your role is to be appropriately less."',
@@ -1383,7 +1160,7 @@ const PHASES = {
   },
 };
 
-/* ── CALCULATION HELPERS ────────────────────────────────── */
+/* ── CALCULATION HELPERS ──────────────────────────────── */
 
 function getPhaseKey(day, cycleLen, bleedLen) {
   const ovDay = cycleLen - 14;
@@ -1425,7 +1202,7 @@ function todaySeed() {
   return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
 }
 
-/* ── WHEEL DRAWING ──────────────────────────────────────── */
+/* ── WHEEL DRAWING ────────────────────────────────────── */
 
 function toXY(cx, cy, r, deg) {
   const rad = (deg - 90) * Math.PI / 180;
@@ -1468,26 +1245,20 @@ function drawWheel(day, cycleLen, bleedLen) {
     const a1 = seg.e * dpd - gap;
     if (a1 <= a0) return;
 
-    const path = el('path', { d: donut(cx,cy,ro,ri,a0,a1), fill: p.col, opacity:'0.88' });
-    svg.appendChild(path);
+    svg.appendChild(el('path', { d: donut(cx,cy,ro,ri,a0,a1), fill: p.col, opacity:'0.88' }));
 
     const days = seg.e - seg.s + 1;
     if (days >= 3) {
       const mid = (a0 + a1) / 2;
-      const lr  = (ro + ri) / 2;
-      const lp  = toXY(cx, cy, lr, mid);
+      const lp  = toXY(cx, cy, (ro + ri) / 2, mid);
       const short = { menstrual:'M', follicular:'F', ovulation:'O', luteal:'L' };
-
       const t = el('text', {
         x: f(lp.x), y: f(lp.y),
         'text-anchor':'middle', 'dominant-baseline':'middle',
         fill:'white', 'font-size': days > 4 ? '12' : '10',
-        'font-weight':'700', 'font-family':'DM Sans, sans-serif',
-        opacity:'0.9',
+        'font-weight':'700', 'font-family':'DM Sans, sans-serif', opacity:'0.9',
       });
-      t.textContent = days > 6
-        ? seg.key.charAt(0).toUpperCase() + seg.key.slice(1,4) + '.'
-        : short[seg.key];
+      t.textContent = days > 6 ? seg.key.charAt(0).toUpperCase() + seg.key.slice(1,4) + '.' : short[seg.key];
       svg.appendChild(t);
     }
   });
@@ -1495,8 +1266,7 @@ function drawWheel(day, cycleLen, bleedLen) {
   svg.appendChild(el('circle', { cx, cy, r: ri - 2, fill:'#F7F3EC' }));
 
   const dayT = el('text', {
-    x: cx, y: cy - 10,
-    'text-anchor':'middle', 'dominant-baseline':'middle',
+    x: cx, y: cy - 10, 'text-anchor':'middle', 'dominant-baseline':'middle',
     fill:'#1B2A4A', 'font-size':'34', 'font-weight':'700',
     'font-family':'Playfair Display, Georgia, serif',
   });
@@ -1504,8 +1274,7 @@ function drawWheel(day, cycleLen, bleedLen) {
   svg.appendChild(dayT);
 
   const dayL = el('text', {
-    x: cx, y: cy + 16,
-    'text-anchor':'middle', 'dominant-baseline':'middle',
+    x: cx, y: cy + 16, 'text-anchor':'middle', 'dominant-baseline':'middle',
     fill:'#8A8A8A', 'font-size':'9', 'letter-spacing':'2',
     'font-family':'DM Sans, sans-serif', 'font-weight':'600',
   });
@@ -1513,25 +1282,94 @@ function drawWheel(day, cycleLen, bleedLen) {
   svg.appendChild(dayL);
 
   const pAngle = (day - 1) * dpd;
-  const pTip   = toXY(cx, cy, ro + 12, pAngle);
-  const pL     = toXY(cx, cy, ro + 3,  pAngle - 5);
-  const pR     = toXY(cx, cy, ro + 3,  pAngle + 5);
-  const arrow  = el('polygon', {
+  const pTip = toXY(cx, cy, ro + 12, pAngle);
+  const pL   = toXY(cx, cy, ro + 3,  pAngle - 5);
+  const pR   = toXY(cx, cy, ro + 3,  pAngle + 5);
+  svg.appendChild(el('polygon', {
     points: `${f(pTip.x)},${f(pTip.y)} ${f(pL.x)},${f(pL.y)} ${f(pR.x)},${f(pR.y)}`,
     fill: '#1B2A4A',
-  });
-  svg.appendChild(arrow);
+  }));
 
   const pd = toXY(cx, cy, ro - 10, pAngle);
   svg.appendChild(el('circle', { cx: f(pd.x), cy: f(pd.y), r:'5', fill:'white', stroke:'#1B2A4A', 'stroke-width':'2' }));
 }
 
-/* ── DASHBOARD UPDATE ───────────────────────────────────── */
+/* ── 7-DAY LOOKAHEAD STRIP ────────────────────────────── */
+
+function buildSevenDayStrip() {
+  const startStr = localStorage.getItem('tom_start') || '';
+  const cycleLen = parseInt(localStorage.getItem('tom_cycle')) || 28;
+  const bleedLen = parseInt(localStorage.getItem('tom_bleed')) || 7;
+
+  const strip  = document.getElementById('week-strip');
+  const noteEl = document.getElementById('week-note');
+  strip.innerHTML = '';
+  noteEl.innerHTML = '';
+
+  if (!startStr) return;
+
+  const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const today    = new Date();
+  today.setHours(0,0,0,0);
+
+  const start = new Date(startStr);
+  start.setHours(0,0,0,0);
+
+  let phaseChanges = [];
+  let prevPhaseKey = null;
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+
+    const diff     = Math.floor((d - start) / 86400000);
+    const cycleDay = diff < 0 ? 1 : (diff % cycleLen) + 1;
+    const phaseKey = getPhaseKey(cycleDay, cycleLen, bleedLen);
+    const ph       = PHASES[phaseKey];
+
+    if (i > 0 && prevPhaseKey && phaseKey !== prevPhaseKey) {
+      phaseChanges.push({ i, d: new Date(d), ph, phaseKey });
+    }
+    prevPhaseKey = phaseKey;
+
+    const div = document.createElement('div');
+    div.className = 'week-day' + (i === 0 ? ' today' : '');
+    div.innerHTML = `
+      <div class="week-day-name">${i === 0 ? 'Today' : dayNames[d.getDay()]}</div>
+      <div class="week-day-num">${d.getDate()}</div>
+      <div class="week-day-emoji">${ph.emoji}</div>
+      <div class="week-day-dot" style="background:${ph.col}"></div>
+    `;
+    strip.appendChild(div);
+  }
+
+  // Phase change note
+  if (phaseChanges.length > 0) {
+    const next    = phaseChanges[0];
+    const daysAway = next.i;
+    const phName  = next.ph.name.replace(' Phase', '');
+    const dayLabel = daysAway === 1 ? 'Tomorrow' : dayNames[next.d.getDay()];
+
+    const toneMap = {
+      menstrual:  'Prepare accordingly, old boy.',
+      follicular: 'Conditions begin to improve.',
+      ovulation:  'Peak window approaching. Do not waste it.',
+      luteal:     'Tread thoughtfully from here.',
+    };
+
+    const note = document.createElement('div');
+    note.className = 'week-phase-change';
+    note.textContent = `${dayLabel}: ${phName} phase begins. ${toneMap[next.phaseKey] || ''}`;
+    noteEl.appendChild(note);
+  }
+}
+
+/* ── DASHBOARD UPDATE ─────────────────────────────────── */
 
 function updateDashboard() {
-  const startStr  = localStorage.getItem('tom_start')  || '';
-  const cycleLen  = parseInt(localStorage.getItem('tom_cycle')) || 28;
-  const bleedLen  = parseInt(localStorage.getItem('tom_bleed')) || 7;
+  const startStr = localStorage.getItem('tom_start') || '';
+  const cycleLen = parseInt(localStorage.getItem('tom_cycle')) || 28;
+  const bleedLen = parseInt(localStorage.getItem('tom_bleed')) || 7;
 
   const day  = getCycleDay(startStr, cycleLen);
   const key  = getPhaseKey(day, cycleLen, bleedLen);
@@ -1544,11 +1382,12 @@ function updateDashboard() {
 
   const pill = document.getElementById('dash-phase-pill');
   pill.style.background = ph.bg;
-  pill.style.color       = ph.col;
+  pill.style.color      = ph.col;
   document.getElementById('dash-pill-dot').style.background = ph.col;
   document.getElementById('dash-pill-label').textContent = `${ph.emoji} ${ph.name}`;
 
   drawWheel(day, cycleLen, bleedLen);
+  buildSevenDayStrip();
 
   document.getElementById('dash-countdown').textContent = left;
 
@@ -1561,9 +1400,7 @@ function updateDashboard() {
   const suitMap = { green:'s-green', blue:'s-blue', amber:'s-amber', red:'s-red' };
   document.querySelectorAll('.suit-row').forEach(r => {
     r.className = 'suit-row';
-    if (r.dataset.suit === ph.suit) {
-      r.classList.add('lit', suitMap[ph.suit]);
-    }
+    if (r.dataset.suit === ph.suit) r.classList.add('lit', suitMap[ph.suit]);
   });
 
   document.getElementById('dash-advice').textContent      = rotate(ph.advice, seed + 2);
@@ -1573,7 +1410,7 @@ function updateDashboard() {
   document.getElementById('dash-science-sub').textContent = ph.sciSub;
 }
 
-/* ── SETUP & SETTINGS ───────────────────────────────────── */
+/* ── SETUP & SETTINGS ─────────────────────────────────── */
 
 function saveAndBegin() {
   const start = document.getElementById('s-start').value;
@@ -1590,6 +1427,7 @@ function openSettings() {
   document.getElementById('m-start').value = localStorage.getItem('tom_start') || '';
   document.getElementById('m-cycle').value = localStorage.getItem('tom_cycle') || 28;
   document.getElementById('m-bleed').value = localStorage.getItem('tom_bleed') || 7;
+  renderPeriodLogHistory();
   document.getElementById('settings-modal').hidden = false;
 }
 
@@ -1619,7 +1457,83 @@ document.getElementById('settings-modal').addEventListener('click', function(e) 
   if (e.target === this) closeSettings();
 });
 
-/* ── PWA INSTALL ────────────────────────────────────────── */
+/* ── PERIOD LOGGING ───────────────────────────────────── */
+
+function logPeriodStart() {
+  const today = new Date().toISOString().split('T')[0];
+
+  let log = JSON.parse(localStorage.getItem('tom_period_log') || '[]');
+
+  // Don't double-log same day
+  if (log.length > 0 && log[log.length - 1].date === today) {
+    alert('TOM has already noted today as a period start. No need to log it twice, old boy.');
+    return;
+  }
+
+  log.push({ date: today });
+  localStorage.setItem('tom_period_log', JSON.stringify(log));
+
+  // Always update start date to today
+  localStorage.setItem('tom_start', today);
+
+  // Recalculate average cycle length if we have 2+ entries
+  if (log.length >= 2) {
+    const gaps = [];
+    for (let i = 1; i < log.length; i++) {
+      const prev = new Date(log[i - 1].date);
+      const curr = new Date(log[i].date);
+      const gap  = Math.round((curr - prev) / 86400000);
+      if (gap >= 21 && gap <= 45) gaps.push(gap); // sanity check
+    }
+    if (gaps.length > 0) {
+      const avg = Math.round(gaps.reduce((a, b) => a + b, 0) / gaps.length);
+      localStorage.setItem('tom_cycle', avg);
+      // Update the settings fields to reflect new calculated value
+      document.getElementById('m-cycle').value = avg;
+    }
+  }
+
+  renderPeriodLogHistory();
+  updateDashboard();
+
+  const recalcMsg = log.length >= 2
+    ? ` Cycle length recalibrated to ${localStorage.getItem('tom_cycle')} days based on ${log.length} logged periods.`
+    : ' Log one more period start and TOM can begin refining the cycle length.';
+  alert('Period start logged.' + recalcMsg);
+}
+
+function renderPeriodLogHistory() {
+  const log = JSON.parse(localStorage.getItem('tom_period_log') || '[]');
+  const el  = document.getElementById('period-log-history');
+  if (!el) return;
+
+  if (log.length === 0) {
+    el.innerHTML = '';
+    return;
+  }
+
+  // Show last 5, most recent first
+  const recent = [...log].reverse().slice(0, 5);
+  el.innerHTML = recent.map((entry, idx, arr) => {
+    const dateStr = new Date(entry.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+    // Calculate gap from previous (next in reversed array = previous chronologically)
+    let gapStr = '';
+    if (idx < arr.length - 1) {
+      const prev = new Date(arr[idx + 1].date);
+      const curr = new Date(entry.date);
+      const gap  = Math.round((curr - prev) / 86400000);
+      gapStr = `${gap}d cycle`;
+    }
+
+    return `<div class="period-log-entry">
+      <span class="period-log-date">🌹 ${dateStr}</span>
+      <span class="period-log-gap">${gapStr}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ── PWA INSTALL ──────────────────────────────────────── */
 
 let _prompt = null;
 window.addEventListener('beforeinstallprompt', e => {
@@ -1636,11 +1550,11 @@ async function installApp() {
   document.getElementById('install-banner').hidden = true;
 }
 
-/* ── AI TOPIC CHECKER ───────────────────────────────────── */
+/* ── AI TOPIC CHECKER ─────────────────────────────────── */
 
 async function askTOM() {
-  const input   = document.getElementById('ai-topic-input');
-  const topic   = input.value.trim();
+  const input = document.getElementById('ai-topic-input');
+  const topic = input.value.trim();
   if (!topic) { input.focus(); return; }
 
   const startStr = localStorage.getItem('tom_start') || '';
@@ -1678,18 +1592,18 @@ Your response must follow this EXACT JSON format and nothing else:
 Respond ONLY with the JSON object. No preamble, no markdown fences, no extra text.`;
 
   try {
-      const response = await fetch('/tom-ai', {      
+    const response = await fetch('/tom-ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ systemPrompt, topic }),
     });
 
-    const data = await response.json();
-    const text = data.content?.map(b => b.text || '').join('') || '';
+    const data  = await response.json();
+    const text  = data.content?.map(b => b.text || '').join('') || '';
     const clean = text.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(clean);
 
-    document.getElementById('ai-verdict-icon').textContent  = parsed.icon   || '🎩';
+    document.getElementById('ai-verdict-icon').textContent  = parsed.icon    || '🎩';
     document.getElementById('ai-verdict-label').textContent = parsed.verdict || 'TOM ADVISES';
     document.getElementById('ai-verdict-text').textContent  = parsed.advice  || '';
     document.getElementById('ai-result').hidden = false;
@@ -1704,64 +1618,171 @@ Respond ONLY with the JSON object. No preamble, no markdown fences, no extra tex
   }
 }
 
-/* ── RELATIONSHIP FIELD NOTES ───────────────────────────── */
+/* ── RELATIONSHIP FIELD NOTES ─────────────────────────── */
 
 let currentStarRating = 0;
 
 function setStarRating(rating) {
   currentStarRating = rating;
   document.querySelectorAll('.star-btn').forEach((btn, idx) => {
-    if (idx < rating) btn.classList.add('active');
-    else btn.classList.remove('active');
+    btn.classList.toggle('active', idx < rating);
   });
 }
 
 function saveNotes() {
-  const notes = document.getElementById('notes-textarea').value.trim();
-  const day = getCycleDay(localStorage.getItem('tom_start'), parseInt(localStorage.getItem('tom_cycle')) || 28);
+  const text   = document.getElementById('notes-textarea').value.trim();
+  const cycleLen = parseInt(localStorage.getItem('tom_cycle')) || 28;
+  const day    = getCycleDay(localStorage.getItem('tom_start') || '', cycleLen);
 
-  if (!notes) return;
+  if (!text && currentStarRating === 0) {
+    document.getElementById('notes-textarea').focus();
+    return;
+  }
 
-  const noteEntry = {
-    date: new Date().toISOString(),
+  const entry = {
+    date:     new Date().toISOString(),
     cycleDay: day,
-    rating: currentStarRating,
-    text: notes
+    rating:   currentStarRating,
+    text,
   };
 
   let allNotes = JSON.parse(localStorage.getItem('tom_notes') || '[]');
-  allNotes.push(noteEntry);
+  allNotes.push(entry);
   localStorage.setItem('tom_notes', JSON.stringify(allNotes));
 
+  // Reset form
   document.getElementById('notes-textarea').value = '';
   currentStarRating = 0;
   document.querySelectorAll('.star-btn').forEach(btn => btn.classList.remove('active'));
 
-  updateNotesTimestamp();
-}
-
-function updateNotesTimestamp() {
+  // Feedback
   const now = new Date();
-  document.getElementById('notes-timestamp').textContent = `Saved at ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  document.getElementById('notes-meta').textContent =
+    `Saved ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+  // Refresh display
+  renderNotesHistory();
+  renderNotesPattern();
 }
 
-function loadNotes() {
+function renderNotesHistory() {
   const allNotes = JSON.parse(localStorage.getItem('tom_notes') || '[]');
-  if (allNotes.length > 0) {
-    const lastNote = allNotes[allNotes.length - 1];
-    setStarRating(lastNote.rating);
-    document.getElementById('notes-textarea').value = lastNote.text;
+  const wrap     = document.getElementById('notes-history-wrap');
+  const container = document.getElementById('notes-history');
+
+  if (allNotes.length === 0) {
+    wrap.hidden = true;
+    return;
   }
+
+  wrap.hidden = false;
+  const recent = [...allNotes].reverse().slice(0, 5);
+
+  container.innerHTML = recent.map(n => {
+    const d       = new Date(n.date);
+    const dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    const stars   = n.rating > 0 ? '⭐'.repeat(n.rating) : '';
+
+    return `<div class="notes-entry">
+      <div class="notes-entry-header">
+        <span class="notes-entry-date">Day ${n.cycleDay} · ${dateStr}</span>
+        <span class="notes-entry-stars">${stars}</span>
+      </div>
+      ${n.text ? `<div class="notes-entry-text">${n.text}</div>` : ''}
+    </div>`;
+  }).join('');
 }
 
-/* ── INIT ───────────────────────────────────────────────── */
+function renderNotesPattern() {
+  const patternEl = document.getElementById('notes-pattern');
+  const analysis  = analyzeNotePatterns();
+
+  if (!analysis) {
+    patternEl.hidden = true;
+    return;
+  }
+
+  patternEl.textContent = analysis;
+  patternEl.hidden = false;
+}
+
+function analyzeNotePatterns() {
+  const allNotes = JSON.parse(localStorage.getItem('tom_notes') || '[]');
+  const cycleLen = parseInt(localStorage.getItem('tom_cycle')) || 28;
+  const bleedLen = parseInt(localStorage.getItem('tom_bleed')) || 7;
+
+  // Need at least 3 rated entries to say anything useful
+  const rated = allNotes.filter(n => n.rating > 0);
+  if (rated.length < 3) {
+    if (allNotes.length > 0) {
+      return `TOM has filed ${allNotes.length} entr${allNotes.length === 1 ? 'y' : 'ies'}. A few more observations and patterns will begin to emerge.`;
+    }
+    return null;
+  }
+
+  // Group ratings by phase
+  const byPhase = { menstrual: [], follicular: [], ovulation: [], luteal: [] };
+  rated.forEach(n => {
+    const pk = getPhaseKey(n.cycleDay, cycleLen, bleedLen);
+    byPhase[pk].push(n.rating);
+  });
+
+  // Calculate averages for phases with data
+  const avgs = {};
+  Object.entries(byPhase).forEach(([k, ratings]) => {
+    if (ratings.length >= 2) avgs[k] = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+  });
+
+  const phaseNames = {
+    menstrual:  'menstrual phase',
+    follicular: 'follicular phase',
+    ovulation:  'ovulation window',
+    luteal:     'luteal phase',
+  };
+
+  const sortedAvgs = Object.entries(avgs).sort((a, b) => a[1] - b[1]);
+
+  if (sortedAvgs.length === 0) {
+    return `TOM has noted ${allNotes.length} entries across ${rated.length} rated days. Continue logging to reveal patterns.`;
+  }
+
+  const worst = sortedAvgs[0];
+  const best  = sortedAvgs[sortedAvgs.length - 1];
+
+  const tomNotesOnWorst = {
+    menstrual:  'The data confirms: comfort and restraint are the order of the day.',
+    follicular: 'Unexpectedly tricky territory. One notes this with interest.',
+    ovulation:  'Even peak season has its hazards. Remarkable, but noted.',
+    luteal:     'The data confirms what experience suspected. Tread carefully here.',
+  };
+
+  const tomNotesOnBest = {
+    menstrual:  'Handled with more grace than the averages might suggest.',
+    follicular: 'Your finest hours, historically. The data speaks well of you.',
+    ovulation:  'Peak conditions confirmed by the record. Nature, it seems, is on your side.',
+    luteal:     'Better than expected. One is genuinely pleasantly surprised.',
+  };
+
+  let insight = `TOM's analysis of ${allNotes.length} entries: `;
+
+  if (worst[0] === best[0] || sortedAvgs.length === 1) {
+    insight += `the ${phaseNames[worst[0]]} averages ${worst[1].toFixed(1)}★. More data across phases will sharpen the picture.`;
+  } else {
+    insight += `the ${phaseNames[worst[0]]} has averaged ${worst[1].toFixed(1)}★ — ${tomNotesOnWorst[worst[0]]} The ${phaseNames[best[0]]} has averaged ${best[1].toFixed(1)}★ — ${tomNotesOnBest[best[0]]}`;
+  }
+
+  return insight;
+}
+
+/* ── INIT ─────────────────────────────────────────────── */
 
 (function init() {
   document.getElementById('s-start').value = new Date().toISOString().split('T')[0];
 
   if (localStorage.getItem('tom_start')) {
     showDashboard();
-    loadNotes();
+    renderNotesHistory();
+    renderNotesPattern();
   }
 
   if ('serviceWorker' in navigator) {
