@@ -1678,7 +1678,7 @@ Your response must follow this EXACT JSON format and nothing else:
 Respond ONLY with the JSON object. No preamble, no markdown fences, no extra text.`;
 
   try {
-    const response = await fetch('/.netlify/functions/tom-ai', {
+    const response = await fetch('/functions/tom-ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ systemPrompt, topic }),
