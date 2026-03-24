@@ -577,6 +577,61 @@
       text-align: center; padding: 8px 0;
     }
 
+    /* Notes entry actions */
+.notes-entry-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin-left: 8px;
+}
+.notes-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 5px;
+  border-radius: 6px;
+  color: #8A7A9D;
+  opacity: 0.55;
+  transition: opacity 0.15s, background 0.15s;
+  line-height: 1;
+}
+.notes-action-btn:hover {
+  opacity: 1;
+  background: rgba(139,107,177,0.15);
+}
+.notes-entry-text.is-hidden {
+  display: none;
+}
+.notes-edit-area {
+  width: 100%;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.45;
+  background: rgba(139,107,177,0.10);
+  border: 1px solid rgba(139,107,177,0.35);
+  border-radius: 7px;
+  padding: 6px 9px;
+  margin-top: 6px;
+  resize: vertical;
+  font-family: 'DM Sans', sans-serif;
+  box-sizing: border-box;
+}
+.notes-edit-save-btn {
+  margin-top: 6px;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #8B6BB1;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s;
+}
+.notes-edit-save-btn:hover { background: #7A5A9E; }
+
     /* Pattern analysis */
     .notes-pattern {
       margin-top: 14px; padding: 12px 13px;
@@ -1679,7 +1734,7 @@ function saveNotes() {
 
 function renderNotesHistory() {
   const allNotes = JSON.parse(localStorage.getItem('tom_notes') || '[]');
-  const wrap     = document.getElementById('notes-history-wrap');
+  const wrap      = document.getElementById('notes-history-wrap');
   const container = document.getElementById('notes-history');
 
   if (allNotes.length === 0) {
@@ -1689,20 +1744,87 @@ function renderNotesHistory() {
 
   wrap.hidden = false;
   const recent = [...allNotes].reverse().slice(0, 5);
+  // recent[i] maps to allNotes index: allNotes.length - 1 - i
+  const totalLen = allNotes.length;
 
-  container.innerHTML = recent.map(n => {
+  container.innerHTML = '';
+
+  recent.forEach((n, i) => {
+    const realIndex = totalLen - 1 - i;
     const d       = new Date(n.date);
     const dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
     const stars   = n.rating > 0 ? '⭐'.repeat(n.rating) : '';
 
-    return `<div class="notes-entry">
+    const entry = document.createElement('div');
+    entry.className = 'notes-entry';
+    entry.dataset.index = realIndex;
+
+    entry.innerHTML = `
       <div class="notes-entry-header">
         <span class="notes-entry-date">Day ${n.cycleDay} · ${dateStr}</span>
-        <span class="notes-entry-stars">${stars}</span>
+        <div style="display:flex;align-items:center;">
+          <span class="notes-entry-stars">${stars}</span>
+          <div class="notes-entry-actions">
+            <button class="notes-action-btn" title="Hide" onclick="toggleHideNote(this)">👁️</button>
+            <button class="notes-action-btn" title="Edit" onclick="editNote(this, ${realIndex})">✏️</button>
+            <button class="notes-action-btn" title="Delete" onclick="deleteNote(${realIndex})">🗑️</button>
+          </div>
+        </div>
       </div>
       ${n.text ? `<div class="notes-entry-text">${n.text}</div>` : ''}
-    </div>`;
-  }).join('');
+    `;
+
+    container.appendChild(entry);
+  });
+}
+
+  function toggleHideNote(btn) {
+  const entry  = btn.closest('.notes-entry');
+  const textEl = entry.querySelector('.notes-entry-text');
+  if (!textEl) return;
+  const nowHidden = textEl.classList.toggle('is-hidden');
+  btn.textContent = nowHidden ? '🙈' : '👁️';
+  btn.title       = nowHidden ? 'Show'  : 'Hide';
+  btn.style.opacity = nowHidden ? '1' : '';
+}
+
+function editNote(btn, index) {
+  const entry  = btn.closest('.notes-entry');
+  const textEl = entry.querySelector('.notes-entry-text');
+  if (entry.querySelector('.notes-edit-area')) return; // already open
+
+  const current = textEl ? textEl.textContent.trim() : '';
+  if (textEl) textEl.classList.add('is-hidden');
+
+  const textarea = document.createElement('textarea');
+  textarea.className = 'notes-edit-area';
+  textarea.value = current;
+  textarea.rows  = 3;
+
+  const saveBtn = document.createElement('button');
+  saveBtn.className   = 'notes-edit-save-btn';
+  saveBtn.textContent = 'Save changes';
+  saveBtn.onclick = () => {
+    const allNotes = JSON.parse(localStorage.getItem('tom_notes') || '[]');
+    const trimmed  = textarea.value.trim();
+    if (trimmed) allNotes[index].text = trimmed;
+    localStorage.setItem('tom_notes', JSON.stringify(allNotes));
+    renderNotesHistory();
+    renderNotesPattern();
+  };
+
+  entry.appendChild(textarea);
+  entry.appendChild(saveBtn);
+  textarea.focus();
+}
+
+function deleteNote(index) {
+  if (!confirm('Delete this entry, old boy? TOM cannot undo this.')) return;
+  const allNotes = JSON.parse(localStorage.getItem('tom_notes') || '[]');
+  allNotes.splice(index, 1);
+  localStorage.setItem('tom_notes', JSON.stringify(allNotes));
+  renderNotesHistory();
+  renderNotesPattern();
 }
 
 function renderNotesPattern() {
