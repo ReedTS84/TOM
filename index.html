@@ -603,6 +603,9 @@
 .notes-entry-text.is-hidden {
   display: none;
 }
+.notes-entry-stars.is-hidden {
+  display: none;
+}
 .notes-edit-area {
   width: 100%;
   font-size: 13px;
@@ -1746,6 +1749,7 @@ function renderNotesHistory() {
   const recent = [...allNotes].reverse().slice(0, 5);
   // recent[i] maps to allNotes index: allNotes.length - 1 - i
   const totalLen = allNotes.length;
+  const hiddenList = JSON.parse(localStorage.getItem('tom_notes_hidden') || '[]');
 
   container.innerHTML = '';
 
@@ -1754,7 +1758,7 @@ function renderNotesHistory() {
     const d       = new Date(n.date);
     const dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
     const stars   = n.rating > 0 ? '⭐'.repeat(n.rating) : '';
-
+    const isHidden = hiddenList.includes(realIndex);
     const entry = document.createElement('div');
     entry.className = 'notes-entry';
     entry.dataset.index = realIndex;
@@ -1763,29 +1767,35 @@ function renderNotesHistory() {
       <div class="notes-entry-header">
         <span class="notes-entry-date">Day ${n.cycleDay} · ${dateStr}</span>
         <div style="display:flex;align-items:center;">
-          <span class="notes-entry-stars">${stars}</span>
+      <span class="notes-entry-stars${isHidden ? ' is-hidden' : ''}">${stars}</span>
           <div class="notes-entry-actions">
-            <button class="notes-action-btn" title="Hide" onclick="toggleHideNote(this)">👁️</button>
-            <button class="notes-action-btn" title="Edit" onclick="editNote(this, ${realIndex})">✏️</button>
-            <button class="notes-action-btn" title="Delete" onclick="deleteNote(${realIndex})">🗑️</button>
+          <button class="notes-action-btn" title="${isHidden ? 'Show' : 'Hide'}" style="${isHidden ? 'opacity:1' : ''}" onclick="toggleHideNote(this)">${isHidden ? '🙈' : '👁️'}</button>            
+          <button class="notes-action-btn" title="Edit" onclick="editNote(this, ${realIndex})">✏️</button>
+          <button class="notes-action-btn" title="Delete" onclick="deleteNote(${realIndex})">🗑️</button>
           </div>
         </div>
       </div>
-      ${n.text ? `<div class="notes-entry-text">${n.text}</div>` : ''}
-    `;
+      ${n.text ? `<div class="notes-entry-text${isHidden ? ' is-hidden' : ''}">${n.text}</div>` : ''}
+       `;
 
     container.appendChild(entry);
   });
 }
 
-  function toggleHideNote(btn) {
-  const entry  = btn.closest('.notes-entry');
-  const textEl = entry.querySelector('.notes-entry-text');
-  if (!textEl) return;
-  const nowHidden = textEl.classList.toggle('is-hidden');
-  btn.textContent = nowHidden ? '🙈' : '👁️';
-  btn.title       = nowHidden ? 'Show'  : 'Hide';
+function toggleHideNote(btn) {
+  const entry   = btn.closest('.notes-entry');
+  const textEl  = entry.querySelector('.notes-entry-text');
+  const starsEl = entry.querySelector('.notes-entry-stars');
+  const nowHidden = textEl ? textEl.classList.toggle('is-hidden') : true;
+  if (starsEl) starsEl.classList.toggle('is-hidden', nowHidden);
+  btn.textContent   = nowHidden ? '🙈' : '👁️';
+  btn.title         = nowHidden ? 'Show' : 'Hide';
   btn.style.opacity = nowHidden ? '1' : '';
+  // Persist
+  const index = parseInt(entry.dataset.index);
+  let hidden = JSON.parse(localStorage.getItem('tom_notes_hidden') || '[]');
+  hidden = nowHidden ? [...new Set([...hidden, index])] : hidden.filter(i => i !== index);
+  localStorage.setItem('tom_notes_hidden', JSON.stringify(hidden));
 }
 
 function editNote(btn, index) {
