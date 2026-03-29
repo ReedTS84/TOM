@@ -1,7 +1,7 @@
 /* TOM — Gentleman's Assistant | Service Worker */
 'use strict';
 
-const CACHE = 'tom-v10.2';
+const CACHE = 'tom-v10.3';
 
 // Core assets — the app cannot function without these
 const CORE_ASSETS = [
@@ -98,6 +98,34 @@ self.addEventListener('fetch', e => {
           return caches.match('./index.html');
         }
       });
+    })
+  );
+});
+
+/* ── PUSH NOTIFICATIONS ──────────────────────────────────── */
+
+self.addEventListener('push', e => {
+  const body = e.data ? e.data.text() : 'Your morning briefing from TOM.';
+  e.waitUntil(
+    self.registration.showNotification('TOM — Gentleman\'s Assistant', {
+      body,
+      icon:               './icon-192.png',
+      badge:              './icon-192.png',
+      tag:                'tom-daily',
+      renotify:           false,
+      requireInteraction: false,
+    })
+  );
+});
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+      for (const c of list) {
+        if (c.url.includes(self.location.origin) && 'focus' in c) return c.focus();
+      }
+      return clients.openWindow('./');
     })
   );
 });
