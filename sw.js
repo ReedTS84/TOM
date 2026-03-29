@@ -1,7 +1,7 @@
 /* TOM — Gentleman's Assistant | Service Worker */
 'use strict';
 
-const CACHE = 'tom-v10.3';
+const CACHE = 'tom-v10.4';
 
 // Core assets — the app cannot function without these
 const CORE_ASSETS = [
