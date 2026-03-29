@@ -785,6 +785,26 @@
     @media (min-width: 480px) {
       #dashboard { border-left: 1px solid rgba(0,0,0,0.05); border-right: 1px solid rgba(0,0,0,0.05); }
     }
+   
+    /* ── NOTIFICATION BANNER ─────────────────────────────────── */
+#notif-banner {
+  margin: 10px 16px 0;
+  background: var(--navy);
+  border: 1px solid rgba(200,169,78,0.3);
+  border-radius: 14px;
+  padding: 12px 14px 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#notif-banner p {
+  flex: 1;
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  font-weight: 400;
+  line-height: 1.4;
+  font-style: italic;
+}
   </style>
 </head>
 <body>
@@ -848,6 +868,12 @@
     <button class="btn-install" onclick="installApp()">Install</button>
     <button class="btn-close-banner" onclick="document.getElementById('install-banner').hidden=true">×</button>
   </div>
+  <!-- Notification Prompt Banner -->
+<div id="notif-banner" hidden>
+  <p>🎩 TOM would like permission to send the occasional morning briefing. He promises restraint… and reasonable timing.</p>
+  <button class="btn-install" onclick="requestNotifPermission()">Allow</button>
+  <button class="btn-close-banner" onclick="document.getElementById('notif-banner').hidden=true">×</button>
+</div>
 
   <!-- Phase Hero -->
   <div class="phase-hero">
@@ -1521,6 +1547,7 @@ function saveSettings() {
   localStorage.setItem('tom_bleed', bleed);
   closeSettings();
   updateDashboard();
+  refreshNotifSubscription();
 }
 
 function showDashboard() {
@@ -1543,6 +1570,7 @@ function logPeriodStart() {
   if (log.length > 0 && log[log.length - 1].date === today) {
     alert('TOM has already noted today as a period start. No need to log it twice, old boy.');
     return;
+    refreshNotifSubscription();
   }
 
   log.push({ date: today });
@@ -1914,6 +1942,78 @@ function analyzeNotePatterns() {
 
   return insight;
 }
+  /* ── PUSH NOTIFICATIONS ──────────────────────────────────── */
+
+// ⚠️ Replace this with YOUR actual VAPID public key from Step 1
+const VAPID_PUBLIC_KEY = 'BH9y7sYhZ5zQJYQJZQJZQJZQJZQJZQJZQJZQJZQJZQJZQJZQJZQ';
+
+function urlB64ToUint8(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64  = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = atob(base64);
+  const out     = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; i++) out[i] = rawData.charCodeAt(i);
+  return out;
+}
+
+function initNotifications() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+  if (Notification.permission === 'denied') return;
+  if (localStorage.getItem('tom_notif_status') === 'subscribed') return;
+
+  if (Notification.permission === 'granted') {
+    subscribeToNotifications();
+  } else {
+    // Show the polite banner after 4 seconds
+    setTimeout(() => {
+      if (document.getElementById('notif-banner'))
+        document.getElementById('notif-banner').hidden = false;
+    }, 4000);
+  }
+}
+
+async function requestNotifPermission() {
+  document.getElementById('notif-banner').hidden = true;
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') subscribeToNotifications();
+}
+
+async function subscribeToNotifications() {
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.subscribe({
+      userVisibleOnly:      true,
+      applicationServerKey: urlB64ToUint8(VAPID_PUBLIC_KEY),
+    });
+    await sendSubscriptionToServer(sub);
+  } catch (err) {
+    console.warn('TOM notification setup:', err.message);
+  }
+}
+
+async function sendSubscriptionToServer(sub) {
+  const res = await fetch('/notify-subscribe', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      subscription: sub.toJSON(),
+      cycleStart:   localStorage.getItem('tom_start')  || '',
+      cycleLength:  parseInt(localStorage.getItem('tom_cycle')) || 28,
+      bleedLength:  parseInt(localStorage.getItem('tom_bleed')) || 7,
+    }),
+  });
+  if (res.ok) localStorage.setItem('tom_notif_status', 'subscribed');
+}
+
+// Call this when cycle data changes so the server stays in sync
+async function refreshNotifSubscription() {
+  if (localStorage.getItem('tom_notif_status') !== 'subscribed') return;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.getSubscription();
+    if (sub) await sendSubscriptionToServer(sub);
+  } catch {}
+}
 
 /* ── INIT ─────────────────────────────────────────────── */
 
@@ -1924,6 +2024,7 @@ function analyzeNotePatterns() {
     showDashboard();
     renderNotesHistory();
     renderNotesPattern();
+    initNotifications();
   }
 
   if ('serviceWorker' in navigator) {
