@@ -1,41 +1,38 @@
 /* TOM — Gentleman's Assistant | Service Worker */
 'use strict';
 
-const CACHE = 'tom-v11.6';
+const CACHE = 'tom-v14';
 
-// Core assets — the app cannot function without these
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
 ];
 
-// Optional assets — cached if available, but won't break install if missing
 const OPTIONAL_ASSETS = [
   './icon-192.png',
   './icon-512.png',
 ];
 
-/* Install — cache core assets, attempt optional ones gracefully */
+/* ── INSTALL ─────────────────────────────────────────────── */
+
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE).then(async cache => {
-      // Core assets must succeed
       await cache.addAll(CORE_ASSETS);
-
-      // Optional assets — fail silently if missing
       await Promise.allSettled(
         OPTIONAL_ASSETS.map(url =>
           fetch(url).then(res => {
             if (res.ok) return cache.put(url, res);
-          }).catch(() => {/* icon missing — no problem */})
+          }).catch(() => {})
         )
       );
     }).then(() => self.skipWaiting())
   );
 });
 
-/* Activate — remove old caches */
+/* ── ACTIVATE ────────────────────────────────────────────── */
+
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
@@ -44,13 +41,16 @@ self.addEventListener('activate', e => {
   );
 });
 
-/* Fetch strategy */
+/* ── FETCH ───────────────────────────────────────────────── */
+
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
 
-  // /tom-ai — never intercept, always go straight to network
-  // (Requires a Cloudflare Function at /functions/tom-ai.js)
-  if (url.pathname === '/tom-ai') {
+  // Skip non-http requests (e.g. chrome extensions)
+  if (!e.request.url.startsWith('http')) return;
+
+  // Never intercept the AI or notification functions
+  if (url.pathname === '/tom-ai' || url.pathname === '/notify-subscribe') {
     e.respondWith(fetch(e.request));
     return;
   }
@@ -81,12 +81,24 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Skip non-http requests (e.g. chrome extensions)
-  if (!e.request.url.startsWith('http')) return;
-
   // Everything else — cache first, network fallback
   e.respondWith(
     caches.match(e.request).then(cached => {
+      if (cached) return cached;
+      return fetch(e.request).then(res => {
+        if (res.ok) {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+        }
+        return res;
+      }).catch(() => {
+        if (e.request.mode === 'navigate') {
+          return caches.match('./index.html');
+        }
+      });
+    })
+  );
+});
 
 /* ── PUSH NOTIFICATIONS ──────────────────────────────────── */
 
