@@ -196,28 +196,32 @@ async function buildVapidJWT(endpoint, privKeyB64u, pubKeyB64u, subject) {
 
   const sigInput = `${b64uEncode(enc.encode(header))}.${b64uEncode(enc.encode(payload))}`;
 
-  const privBytes = b64uDecode(privKeyB64u);
-  const pubBytes  = b64uDecode(pubKeyB64u);
+  try {
+    // Decode private key (expected to be base64url PKCS8)
+    const privBytes = b64uDecode(privKeyB64u);
+    // Import as PKCS8 ECDSA private key
+    const privKey = await crypto.subtle.importKey(
+      'pkcs8',
+      privBytes.buffer,
+      { name: 'ECDSA', namedCurve: 'P-256' },
+      false,
+      ['sign']
+    );
 
-  const jwk = {
-    kty: 'EC', crv: 'P-256',
-    d: b64uEncode(privBytes),
-    x: b64uEncode(pubBytes.slice(1, 33)),
-    y: b64uEncode(pubBytes.slice(33, 65)),
-  };
+    // Sign the ASCII sigInput bytes with ECDSA/SHA-256
+    const sigDer = new Uint8Array(
+      await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, privKey, enc.encode(sigInput))
+    );
 
-  const key = await crypto.subtle.importKey(
-    'jwk', jwk,
-    { name: 'ECDSA', namedCurve: 'P-256' },
-    false, ['sign']
-  );
+    // Web Crypto returns DER-encoded signature. Base64url-encode that DER blob.
+    return `${sigInput}.${b64uEncode(sigDer)}`;
 
-  const sig = new Uint8Array(
-    await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, key, enc.encode(sigInput))
-  );
-
-  return `${sigInput}.${b64uEncode(sig)}`;
+  } catch (e) {
+    console.log('buildVapidJWT FAILED:', e && e.message ? e.message : e);
+    throw e;
+  }
 }
+
 
 /* ── WEB PUSH PAYLOAD ENCRYPTION (aesgcm) ────────────────── */
 
@@ -292,7 +296,17 @@ async function sendPush(subscription, message, vapidPriv, vapidPub, vapidSubject
   });
 
   return res.status;
+  
 }
+console.log('Sending push to', subscription.endpoint);
+try {
+  const status = await sendPush(subscription, message, vapidPriv, vapidPub, vapidSubject);
+  results.push({ key: name, status });
+} catch (err) {
+  console.log('sendPush error for', name, err && err.message ? err.message : err);
+  results.push({ key: name, error: err && err.message ? err.message : String(err) });
+}
+
 
 /* ── MAIN HANDLER ─────────────────────────────────────────── */
 
