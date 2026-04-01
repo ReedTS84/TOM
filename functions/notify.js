@@ -83,6 +83,31 @@ const PHASE_CHANGE_MSGS = {
   luteal:     'Luteal phase begins tomorrow. TOM recommends a slight recalibration.',
 };
 
+// --- DEBUG: validate VAPID private key format (temporary) ---
+async function validateVapidKey(env) {
+  try {
+    const privB64 = env.VAPID_PRIVATE_KEY;
+    if (!privB64) {
+      console.log('VAPID_PRIVATE_KEY missing');
+      return false;
+    }
+    // convert base64url to base64
+    const b64 = privB64.replace(/-/g, '+').replace(/_/g, '/')
+      + '='.repeat((4 - privB64.length % 4) % 4);
+    const raw = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+    // try import as PKCS8 (Cloudflare Workers / Pages support subtle.importKey)
+    await crypto.subtle.importKey('pkcs8', raw.buffer, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign']);
+    console.log('VAPID private key imported OK');
+    return true;
+  } catch (e) {
+    console.log('VAPID private key import FAILED:', e && e.message ? e.message : e);
+    return false;
+  }
+}
+// call it once at startup for debug
+validateVapidKey(env);
+
+
 /* ── PHASE LOGIC ──────────────────────────────────────────── */
 
 function getPhaseKey(day, cycleLen, bleedLen) {
