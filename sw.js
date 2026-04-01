@@ -81,26 +81,12 @@ self.addEventListener('fetch', e => {
     return;
   }
 
+  // Skip non-http requests (e.g. chrome extensions)
+  if (!e.request.url.startsWith('http')) return;
+
   // Everything else — cache first, network fallback
   e.respondWith(
     caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(res => {
-        if (res.ok) {
-          const clone = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone));
-        }
-        return res;
-      }).catch(() => {
-        // Network failed and nothing cached — return a minimal offline response
-        // for navigation requests so the app shell still loads
-        if (e.request.mode === 'navigate') {
-          return caches.match('./index.html');
-        }
-      });
-    })
-  );
-});
 
 /* ── PUSH NOTIFICATIONS ──────────────────────────────────── */
 
