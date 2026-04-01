@@ -83,36 +83,13 @@ const PHASE_CHANGE_MSGS = {
   luteal:     'Luteal phase begins tomorrow. TOM recommends a slight recalibration.',
 };
 
-// --- DEBUG: validate VAPID private key format (temporary) ---
-async function validateVapidKey(env) {
-  try {
-    const privB64 = env.VAPID_PRIVATE_KEY;
-    if (!privB64) {
-      console.log('VAPID_PRIVATE_KEY missing');
-      return false;
-    }
-    // convert base64url to base64
-    const b64 = privB64.replace(/-/g, '+').replace(/_/g, '/')
-      + '='.repeat((4 - privB64.length % 4) % 4);
-    const raw = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
-    // try import as PKCS8 (Cloudflare Workers / Pages support subtle.importKey)
-    await crypto.subtle.importKey('pkcs8', raw.buffer, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign']);
-    console.log('VAPID private key imported OK');
-    return true;
-  } catch (e) {
-    console.log('VAPID private key import FAILED:', e && e.message ? e.message : e);
-    return false;
-  }
-}
-
-
 /* ── PHASE LOGIC ──────────────────────────────────────────── */
 
 function getPhaseKey(day, cycleLen, bleedLen) {
   const ovDay = cycleLen - 14;
-  if (day <= bleedLen)        return 'menstrual';
-  if (day < ovDay)            return 'follicular';
-  if (day <= ovDay + 1)       return 'ovulation';
+  if (day <= bleedLen)      return 'menstrual';
+  if (day < ovDay)          return 'follicular';
+  if (day <= ovDay + 1)     return 'ovulation';
   return 'luteal';
 }
 
@@ -166,13 +143,13 @@ async function hmacSha256(keyBytes, data) {
 }
 
 async function hkdf(salt, ikm, info, length) {
-  const prk = await hmacSha256(salt, ikm);
+  const prk       = await hmacSha256(salt, ikm);
   const infoBytes = typeof info === 'string' ? new TextEncoder().encode(info) : info;
-  const n = Math.ceil(length / 32);
-  let T = new Uint8Array(0);
-  let result = new Uint8Array(0);
+  const n         = Math.ceil(length / 32);
+  let T           = new Uint8Array(0);
+  let result      = new Uint8Array(0);
   for (let i = 1; i <= n; i++) {
-    T = await hmacSha256(prk, concat(T, infoBytes, new Uint8Array([i])));
+    T      = await hmacSha256(prk, concat(T, infoBytes, new Uint8Array([i])));
     result = concat(result, T);
   }
   return result.slice(0, length);
@@ -183,8 +160,8 @@ async function hkdf(salt, ikm, info, length) {
 async function buildVapidJWT(endpoint, privKeyB64u, pubKeyB64u, subject) {
   const { protocol, host } = new URL(endpoint);
   const audience = `${protocol}//${host}`;
+  const enc      = new TextEncoder();
 
-  const enc     = new TextEncoder();
   const header  = JSON.stringify({ typ: 'JWT', alg: 'ES256' });
   const payload = JSON.stringify({
     aud: audience,
@@ -192,34 +169,22 @@ async function buildVapidJWT(endpoint, privKeyB64u, pubKeyB64u, subject) {
     sub: subject,
   });
 
-  const sigInput = `${b64uEncode(enc.encode(header))}.${b64uEncode(enc.encode(payload))}`;
+  const sigInput  = `${b64uEncode(enc.encode(header))}.${b64uEncode(enc.encode(payload))}`;
+  const privBytes = b64uDecode(privKeyB64u);
+  const privKey   = await crypto.subtle.importKey(
+    'pkcs8',
+    privBytes.buffer,
+    { name: 'ECDSA', namedCurve: 'P-256' },
+    false,
+    ['sign']
+  );
 
-  try {
-    // Decode private key (expected to be base64url PKCS8)
-    const privBytes = b64uDecode(privKeyB64u);
-    // Import as PKCS8 ECDSA private key
-    const privKey = await crypto.subtle.importKey(
-      'pkcs8',
-      privBytes.buffer,
-      { name: 'ECDSA', namedCurve: 'P-256' },
-      false,
-      ['sign']
-    );
+  const sig = new Uint8Array(
+    await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, privKey, enc.encode(sigInput))
+  );
 
-    // Sign the ASCII sigInput bytes with ECDSA/SHA-256
-    const sigDer = new Uint8Array(
-      await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, privKey, enc.encode(sigInput))
-    );
-
-    // Web Crypto returns DER-encoded signature. Base64url-encode that DER blob.
-    return `${sigInput}.${b64uEncode(sigDer)}`;
-
-  } catch (e) {
-    console.log('buildVapidJWT FAILED:', e && e.message ? e.message : e);
-    throw e;
-  }
+  return `${sigInput}.${b64uEncode(sig)}`;
 }
-
 
 /* ── WEB PUSH PAYLOAD ENCRYPTION (aesgcm) ────────────────── */
 
@@ -227,32 +192,25 @@ async function encryptPayload(subscription, message) {
   const enc      = new TextEncoder();
   const msgBytes = enc.encode(message);
 
-  // Ephemeral sender key pair
-  const serverKP = await crypto.subtle.generateKey(
+  const serverKP     = await crypto.subtle.generateKey(
     { name: 'ECDH', namedCurve: 'P-256' }, true, ['deriveBits']
   );
   const serverPubRaw = new Uint8Array(await crypto.subtle.exportKey('raw', serverKP.publicKey));
 
-  // Client (receiver) public key
   const clientPubRaw = b64uDecode(subscription.keys.p256dh);
   const clientPubKey = await crypto.subtle.importKey(
     'raw', clientPubRaw, { name: 'ECDH', namedCurve: 'P-256' }, false, ['deriveBits']
   );
 
-  // ECDH shared secret
-  const sharedBits = await crypto.subtle.deriveBits(
+  const sharedBits   = await crypto.subtle.deriveBits(
     { name: 'ECDH', public: clientPubKey }, serverKP.privateKey, 256
   );
   const sharedSecret = new Uint8Array(sharedBits);
+  const authSecret   = b64uDecode(subscription.keys.auth);
+  const salt         = crypto.getRandomValues(new Uint8Array(16));
 
-  const authSecret = b64uDecode(subscription.keys.auth);
-  const salt       = crypto.getRandomValues(new Uint8Array(16));
+  const ikm = await hkdf(authSecret, sharedSecret, enc.encode('Content-Encoding: auth\0'), 32);
 
-  // IKM from auth secret
-  const authInfo = enc.encode('Content-Encoding: auth\0');
-  const ikm      = await hkdf(authSecret, sharedSecret, authInfo, 32);
-
-  // Receiver context
   const receiverContext = concat(
     enc.encode('P-256\0'),
     new Uint8Array([0x00, clientPubRaw.length]),
@@ -261,10 +219,9 @@ async function encryptPayload(subscription, message) {
     serverPubRaw,
   );
 
-  const cek   = await hkdf(salt, ikm, concat(enc.encode('Content-Encoding: aesgcm\0'),  receiverContext), 16);
-  const nonce = await hkdf(salt, ikm, concat(enc.encode('Content-Encoding: nonce\0'),   receiverContext), 12);
+  const cek   = await hkdf(salt, ikm, concat(enc.encode('Content-Encoding: aesgcm\0'), receiverContext), 16);
+  const nonce = await hkdf(salt, ikm, concat(enc.encode('Content-Encoding: nonce\0'),  receiverContext), 12);
 
-  // Encrypt: [2-byte padding prefix = 0x0000] + message
   const padded = concat(new Uint8Array(2), msgBytes);
   const aesKey = await crypto.subtle.importKey('raw', cek, 'AES-GCM', false, ['encrypt']);
   const cipher = new Uint8Array(
@@ -277,7 +234,7 @@ async function encryptPayload(subscription, message) {
 /* ── SEND ONE PUSH NOTIFICATION ───────────────────────────── */
 
 async function sendPush(subscription, message, vapidPriv, vapidPub, vapidSubject) {
-  const jwt = await buildVapidJWT(subscription.endpoint, vapidPriv, vapidPub, vapidSubject);
+  const jwt                          = await buildVapidJWT(subscription.endpoint, vapidPriv, vapidPub, vapidSubject);
   const { cipher, salt, serverPubRaw } = await encryptPayload(subscription, message);
 
   const res = await fetch(subscription.endpoint, {
@@ -294,29 +251,14 @@ async function sendPush(subscription, message, vapidPriv, vapidPub, vapidSubject
   });
 
   return res.status;
-  
 }
-console.log('Sending push to', subscription.endpoint);
-try {
-  const status = await sendPush(subscription, message, vapidPriv, vapidPub, vapidSubject);
-  results.push({ key: name, status });
-} catch (err) {
-  console.log('sendPush error for', name, err && err.message ? err.message : err);
-  results.push({ key: name, error: err && err.message ? err.message : String(err) });
-}
-
 
 /* ── MAIN HANDLER ─────────────────────────────────────────── */
 
 export async function onRequestGet(context) {
   const { request, env } = context;
+  const url              = new URL(request.url);
 
-  // --- DEBUG: validate VAPID private key format (temporary) ---
-  await validateVapidKey(env);
-
-  const url = new URL(request.url);
-
-  // Authenticate the cron request
   const token = url.searchParams.get('token') || '';
   if (!env.NOTIFY_TOKEN || token !== env.NOTIFY_TOKEN) {
     return new Response('Unauthorized', { status: 401 });
@@ -326,14 +268,12 @@ export async function onRequestGet(context) {
   const vapidPub     = env.VAPID_PUBLIC_KEY;
   const vapidSubject = env.VAPID_SUBJECT || 'mailto:change@me.com';
 
-  if (!vapidPriv || !vapidPub)         return new Response('VAPID keys not configured', { status: 500 });
-  if (!env.TOM_SUBSCRIPTIONS)          return new Response('KV not bound', { status: 500 });
+  if (!vapidPriv || !vapidPub) return new Response('VAPID keys not configured', { status: 500 });
+  if (!env.TOM_SUBSCRIPTIONS)  return new Response('KV not bound', { status: 500 });
 
-  const list = await env.TOM_SUBSCRIPTIONS.list();
-
+  const list    = await env.TOM_SUBSCRIPTIONS.list();
   const today   = new Date();
   const daySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-
   const results = [];
 
   for (const { name } of list.keys) {
@@ -344,11 +284,10 @@ export async function onRequestGet(context) {
       const { subscription, cycleStart, cycleLength, bleedLength } = JSON.parse(raw);
 
       const cycleDay    = getCycleDay(cycleStart, cycleLength);
-      const phaseKey    = getPhaseKey(cycleDay,     cycleLength, bleedLength);
+      const phaseKey    = getPhaseKey(cycleDay,    cycleLength, bleedLength);
       const tomorrowDay = cycleDay >= cycleLength ? 1 : cycleDay + 1;
-      const tomorrowKey = getPhaseKey(tomorrowDay,  cycleLength, bleedLength);
+      const tomorrowKey = getPhaseKey(tomorrowDay, cycleLength, bleedLength);
 
-      // Phase-change alert takes priority over daily briefing
       const message = (tomorrowKey !== phaseKey)
         ? PHASE_CHANGE_MSGS[tomorrowKey]
         : pickMessage(MSGS[phaseKey], daySeed + cycleDay);
@@ -356,7 +295,6 @@ export async function onRequestGet(context) {
       const status = await sendPush(subscription, message, vapidPriv, vapidPub, vapidSubject);
       results.push({ key: name, status });
 
-      // Clean up dead subscriptions automatically
       if (status === 410 || status === 404) {
         await env.TOM_SUBSCRIPTIONS.delete(name);
       }
