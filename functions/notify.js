@@ -104,8 +104,6 @@ async function validateVapidKey(env) {
     return false;
   }
 }
-// call it once at startup for debug
-validateVapidKey(env);
 
 
 /* ── PHASE LOGIC ──────────────────────────────────────────── */
@@ -312,6 +310,11 @@ try {
 
 export async function onRequestGet(context) {
   const { request, env } = context;
+  const url = new URL(request.url);
+
+   // --- DEBUG: validate VAPID private key format (temporary) ---
+  await validateVapidKey(env);
+
   const url = new URL(request.url);
 
   // Authenticate the cron request
